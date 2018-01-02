@@ -19,7 +19,7 @@ class TemplateCreator:
 
     def create_template(self):
         try:
-            print("Creating template project in directory {}...".format(self.output_directory)
+            print("Creating template project in directory {}...".format(self.output_directory))
             shutil.copytree(self._source_directory, self.output_directory)
         except Exception:
             print("Couldn't create the template directory; is there already a directory named '{}'?".format(self.output_directory))

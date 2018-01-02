@@ -4,7 +4,10 @@ import shutil
 import unittest
 
 class TestTemplateCreator(unittest.TestCase):
+
     GENERATED_TEMPLATE_DIR = "delme"
+    # assets dir, source dir, Project.xml
+    EXPECTED_HAXEFLIXEL_FILES = ["assets", "Project.xml", "source"]
     
     def tearDown(self):
         if os.path.exists(TestTemplateCreator.GENERATED_TEMPLATE_DIR):
@@ -22,3 +25,9 @@ class TestTemplateCreator(unittest.TestCase):
         t.create_template()
         self.assertTrue(os.path.exists(TestTemplateCreator.GENERATED_TEMPLATE_DIR))
         self.assertTrue(os.path.isdir(TestTemplateCreator.GENERATED_TEMPLATE_DIR))
+
+        files_and_directories = os.listdir(TestTemplateCreator.GENERATED_TEMPLATE_DIR)
+        self.assertGreaterEqual(len(files_and_directories), len(TestTemplateCreator.EXPECTED_HAXEFLIXEL_FILES))
+        # Qualitative check: no files, and at least Project.xml, source, assets
+        for entry in TestTemplateCreator.EXPECTED_HAXEFLIXEL_FILES:
+            self.assertTrue(os.path.exists("{}\\{}".format(TestTemplateCreator.GENERATED_TEMPLATE_DIR, entry)))
