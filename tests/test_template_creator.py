@@ -30,4 +30,4 @@ class TestTemplateCreator(unittest.TestCase):
         self.assertGreaterEqual(len(files_and_directories), len(TestTemplateCreator.EXPECTED_HAXEFLIXEL_FILES))
         # Qualitative check: no files, and at least Project.xml, source, assets
         for entry in TestTemplateCreator.EXPECTED_HAXEFLIXEL_FILES:
-            self.assertTrue(os.path.exists("{}\\{}".format(TestTemplateCreator.GENERATED_TEMPLATE_DIR, entry)))
+            self.assertTrue(os.path.exists(os.path.join(TestTemplateCreator.GENERATED_TEMPLATE_DIR, entry)))

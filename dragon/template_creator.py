@@ -15,7 +15,7 @@ class TemplateCreator:
         
         dragon_path = os.path.dirname(os.path.realpath(__file__))
         dragon_path = os.path.split(dragon_path)[0] # Windows only?
-        self._source_directory = "{}\\{}".format(dragon_path, TemplateCreator.SOURCE_TEMPLATE_DIRECTORY)
+        self._source_directory = os.path.join(dragon_path, TemplateCreator.SOURCE_TEMPLATE_DIRECTORY)
 
     def create_template(self):
         try:
