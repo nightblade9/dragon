@@ -25,6 +25,6 @@ class Main extends Sprite
     def test_transpile_removes_package_statements(self):
         t = FileTranspiler(TestFileTranspiler.MAIN_HX)
         python_code = t.transpile()
-        self.assertIsNone(re.search("^package.*;", python_code))
+        self.assertIsNone(re.search(FileTranspiler._PACKAGE_REGEX, python_code))
 
     ### End series ###
