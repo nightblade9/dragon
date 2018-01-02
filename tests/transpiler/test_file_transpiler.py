@@ -27,4 +27,11 @@ class Main extends Sprite
         python_code = t.transpile()
         self.assertIsNone(re.search(FileTranspiler._PACKAGE_REGEX, python_code))
 
+    def test_transpile_transforms_imports_into_python_style(self):
+        t = FileTranspiler(TestFileTranspiler.MAIN_HX)
+        python_code = t.transpile()
+
+        haxe_imports = re.search(FileTranspiler._IMPORT_REGEX, python_code)
+        self.assertIsNone(haxe_imports)
+
     ### End series ###
