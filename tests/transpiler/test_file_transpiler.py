@@ -1,0 +1,30 @@
+import re
+import unittest
+from dragon.transpilation.file_transpiler import FileTranspiler
+
+class TestFileTranspiler(unittest.TestCase):
+    ###
+    # A series of "integration tests" that transpile the HaxeFlixel template (as of 4.3.0)
+    ###
+
+    MAIN_HX = """package;
+
+import flixel.FlxGame;
+import openfl.display.Sprite;
+
+class Main extends Sprite
+{
+	public function new()
+	{
+		super();
+		addChild(new FlxGame(0, 0, PlayState));
+	}
+}
+"""
+
+    def test_transpile_removes_package_statements(self):
+        t = FileTranspiler(TestFileTranspiler.MAIN_HX)
+        python_code = t.transpile()
+        self.assertIsNone(re.search("^package.*;", python_code))
+
+    ### End series ###
