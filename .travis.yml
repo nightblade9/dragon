@@ -1,5 +1,5 @@
 language: python
 python:
-  - "3.6.3"
+  - "3.6"
 script:
-  ./run_tests.sh
+  python3 -m unittest discover tests
