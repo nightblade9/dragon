@@ -14,7 +14,7 @@ class TemplateCreator:
             self.output_directory = TemplateCreator.DEFAULT_OUTPUT_DIRECTORY
         
         dragon_path = os.path.dirname(os.path.realpath(__file__))
-        dragon_path = dragon_path[0:dragon_path.rindex('\\')] # Windows only?
+        dragon_path = os.path.split(dragon_path)[0] # Windows only?
         self._source_directory = "{}\\{}".format(dragon_path, TemplateCreator.SOURCE_TEMPLATE_DIRECTORY)
 
     def create_template(self):
