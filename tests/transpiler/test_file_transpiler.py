@@ -59,7 +59,7 @@ class Main(Sprite):
         except:
             path_only = os.path.split(file_path)[0]
             os.remove(file_path)
-            distutils.dir_util.remove_tree(path_only)            
+            distutils.dir_util.remove_tree(path_only)
             raise
 
     ### End series ###
