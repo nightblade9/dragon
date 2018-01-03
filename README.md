@@ -2,7 +2,7 @@
 
 [![Build status](https://travis-ci.org/nightblade9/dragon.svg?branch=master)](https://travis-ci.org/nightblade9/dragon/)
 
-Dragon is a *universal Python implementation*. It achieves this by transpiling Python to [Haxe](http://haxe.org), which can then be transpiled and compiled to various platforms and languages (C++, Javascript, Java, C#, Ruby, Python, Lua, etc.)
+Dragon is a *universal Python translater*. It achieves this by transpiling Python to [Haxe](http://haxe.org), which can then be transpiled and compiled to various platforms and languages (C++, Javascript, Java, C#, Ruby, Python, Lua, etc.)
 
 ----
 

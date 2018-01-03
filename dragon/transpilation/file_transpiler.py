@@ -4,7 +4,9 @@ import re
 class FileTranspiler:
 
     # We only support newstyle "from x import y". Applied line by line.
-    _IMPORT_REGEX = r"^from ([a-zA-Z\.]+) import ([a-zA-Z]+);"
+    # The second grouping [a-zA-Z_] removes the final redundancy from the import
+    # eg. "from openfl.display.sprite import Sprite" ignores "sprite"
+    _IMPORT_REGEX = r"^from ([a-zA-Z\._]+)\.[a-zA-Z_]+ import ([a-zA-Z_]+)"
     
     def __init__(self, filename):
         self._filename = filename
@@ -33,15 +35,10 @@ class FileTranspiler:
         return code
 
     def _transform_imports(self, code):
-        return code # TODO: FIX
-
-        code_lines = code.splitlines()
+        code_lines = code.splitlines()        
         output = ""
+
         for line in code_lines:
-            match = re.search(FileTranspiler._IMPORT_REGEX, line)
-            #print("{} => {}".format(line, match))
-            if match:
-                print(match)
-                pass
+            line = re.sub(FileTranspiler._IMPORT_REGEX, "import \\1.\\2;", line)
             output = "{}\n{}".format(output, line)
         return output
