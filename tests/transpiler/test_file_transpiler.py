@@ -9,6 +9,9 @@ class TestFileTranspiler(unittest.TestCase):
     # HaxeFlixel template (as of 4.3.0)
     ###
 
+    _TEST_FILE_DIR = "temp"
+    _MAIN_FILE_PATH = os.path.join(_TEST_FILE_DIR, "main.py")
+
     MAIN_HX_PYTHON = """
 from flixel.flx_game import FlxGame
 from openfl.display.sprite import Sprite
@@ -35,16 +38,29 @@ class Main extends Sprite
 """
 
     def setUp(self):
-        with open("main.py", "wt") as file:
+        os.makedirs(TestFileTranspiler._TEST_FILE_DIR)
+        with open(TestFileTranspiler._MAIN_FILE_PATH, "wt") as file:
             file.write(TestFileTranspiler.MAIN_HX_PYTHON)
 
     def tearDown(self):
-        os.remove("main.py")
+        os.remove(TestFileTranspiler._MAIN_FILE_PATH)
+        os.removedirs(TestFileTranspiler._TEST_FILE_DIR)
 
-    def test_transpile_adds_empty_package_statement_for_root_file(self):
-        t = FileTranspiler("main.py")
+    def test_transpile_adds_empty_pacakge_for_root_file(self):
+        file_path = "zomg_root_file.py"
+        with open(file_path, "wt") as file:
+            file.write(TestFileTranspiler.MAIN_HX_PYTHON)
+        try:
+            t = FileTranspiler(file_path)
+            haxe_code = t.transpile()
+            self.assertIn("package;", haxe_code)
+        finally:
+            os.remove(file_path)
+
+    def test_transpile_adds_single_package_statement_for_one_subdirectory_file(self):
+        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
         haxe_code = t.transpile()
-        self.assertTrue("package;" in haxe_code)
+        self.assertTrue("package temp;" in haxe_code)
 
     def test_transpile_adds_dot_delimited_pacakge_for_deep_file(self):
         file_path = os.path.join("deengames", "owlicious", "core", "element.py")
@@ -57,14 +73,12 @@ class Main extends Sprite
             haxe_code = t.transpile()
             self.assertIn("package deengames.owlicious.core", haxe_code)
             self.assertNotIn("package deengames.owlicious.core.element", haxe_code)
-        except:
+        finally:
             path_only = os.path.split(file_path)[0]
             os.remove(file_path)
-            distutils.dir_util.remove_tree(path_only)
-            raise
 
     def test_transpile_converts_import_statements(self):
-        t = FileTranspiler("main.py")
+        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
         haxe_code = t.transpile()
         self.assertIn("import flixel.FlxGame;", haxe_code)
         self.assertIn("import openfl.display.Sprite;", haxe_code)
