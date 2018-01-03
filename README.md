@@ -6,15 +6,17 @@ Dragon is a *universal Python translater*. It achieves this by transpiling Pytho
 
 ----
 
-Currently, Dragon is a Python to Haxe transpiler, written in Python.
+Currently, Dragon is a Python to Haxe transpiler, written in Python. The transpiler mostly relies on text substitution and regular expressions (no ASTs involved), so the generated Haxe code is (mostly) readable.
 
 At this (very early MVP) stage, the goal is to transpile simple code from Haxe to Python in order to generate fully-runnable HaxeFlixel games.
 
 Once I achieve this goal, I will add more generic functionality to Dragon.
 
-# Limitations
+# Rules and Limitations
 
 Your Python code must obey the following rules. If this chafes you, feel free to open an issue (or better yet, a PR) to resolve the problem.
 
 - Tabs and spaces are both okay
 - import statements should always be of the form `from a.b.c import X`. Any other types of imports (eg. `import a.b.*`) are not supported.
+- Every Python file must be a class. (Simple module code is not supported.)
+- Multiple inheritence is not supported. (We can always support this through composition later.)

@@ -27,10 +27,8 @@ class Main(Sprite):
 import flixel.FlxGame;
 import openfl.display.Sprite;
 
-class Main extends Sprite
-{
-	public function new()
-	{
+class Main extends Sprite {
+	public function new() {
 		super();
 		addChild(new FlxGame(0, 0, PlayState));
 	}
@@ -60,7 +58,7 @@ class Main extends Sprite
     def test_transpile_adds_single_package_statement_for_one_subdirectory_file(self):
         t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
         haxe_code = t.transpile()
-        self.assertTrue("package temp;" in haxe_code)
+        self.assertIn("package temp;", haxe_code)
 
     def test_transpile_adds_dot_delimited_pacakge_for_deep_file(self):
         file_path = os.path.join("deengames", "owlicious", "core", "element.py")
@@ -82,5 +80,21 @@ class Main extends Sprite
         haxe_code = t.transpile()
         self.assertIn("import flixel.FlxGame;", haxe_code)
         self.assertIn("import openfl.display.Sprite;", haxe_code)
+
+    def test_transpile_converts_classes_and_base_class(self):
+        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
+        haxe_code = t.transpile()
+        self.assertIn("class Main extends Sprite {", haxe_code)
+
+    def test_transpile_exlcudes_base_class_for_non_derived_classes(self):
+        # Replace main.py with a non-derived class
+        python_code = TestFileTranspiler.MAIN_HX_PYTHON.replace("class Main(Sprite):", "class Awesome:")
+
+        with open(TestFileTranspiler._MAIN_FILE_PATH, "wt") as file:
+            file.write(python_code)
+        
+        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
+        haxe_code = t.transpile()
+        self.assertIn("class Awesome {", haxe_code)
 
     ### End series ###
