@@ -20,3 +20,4 @@ Your Python code must obey the following rules. If this chafes you, feel free to
 - import statements should always be of the form `from a.b.c import X`. Any other types of imports (eg. `import a.b.*`) are not supported.
 - Every Python file must be a class. (Simple module code is not supported.)
 - Multiple inheritence is not supported. (We can always support this through composition later.)
+- Your Python code either should use four spaces per indentation level, or tabs (but not two spaces) as per PEP-8

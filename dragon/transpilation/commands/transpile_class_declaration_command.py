@@ -24,7 +24,7 @@ class TranspileClassDeclarationCommand:
                 base_class = base_class.replace('(', "").replace(')', "")
         
             base_class_declaration = " extends {}".format(base_class) if base_class else ""
-            class_declaration = "class {}{} {{".format(class_name, base_class_declaration)
+            class_declaration = "class {}{}".format(class_name, base_class_declaration)
             
             output = output.replace(match.group(0), class_declaration)
 

@@ -1,6 +1,7 @@
 from dragon.transpilation.commands.add_package_statement_command import AddPackageStatementCommand
 from dragon.transpilation.commands.transpile_class_declaration_command import TranspileClassDeclarationCommand
 from dragon.transpilation.commands.transpile_import_statement_command import TranspileImportStatementCommand
+from dragon.transpilation.commands.add_curly_braces_command import AddCurlyBracesCommand
 
 class FileTranspiler:
 
@@ -19,5 +20,6 @@ class FileTranspiler:
         code = AddPackageStatementCommand().execute(self._filename, code)
         code = TranspileImportStatementCommand().execute(code)
         code = TranspileClassDeclarationCommand().execute(code)
+        code = AddCurlyBracesCommand().execute(code)
         return code
 

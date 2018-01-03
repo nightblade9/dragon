@@ -1,10 +1,11 @@
 import distutils.dir_util
+from helpers import test_data
 import os
 import unittest
 from dragon.transpilation.commands.transpile_import_statement_command import TranspileImportStatementCommand
 
 class TestTranspileImportStatementCommand(unittest.TestCase):
-    MAIN_HX_PYTHON = """
+    _MAIN_HX_PYTHON = """
 from flixel.flx_game import FlxGame
 from openfl.display.sprite import Sprite
 
@@ -16,6 +17,6 @@ class Main(Sprite):
 
     def test_execute_converts_import_statements(self):        
         t = TranspileImportStatementCommand()
-        haxe_code = t.execute(TestTranspileImportStatementCommand.MAIN_HX_PYTHON)
+        haxe_code = t.execute(test_data.MAIN_HX_PYTHON)
         self.assertIn("import flixel.FlxGame;", haxe_code)
         self.assertIn("import openfl.display.Sprite;", haxe_code)
