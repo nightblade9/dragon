@@ -75,26 +75,4 @@ class Main extends Sprite {
             path_only = os.path.split(file_path)[0]
             os.remove(file_path)
 
-    def test_transpile_converts_import_statements(self):
-        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
-        haxe_code = t.transpile()
-        self.assertIn("import flixel.FlxGame;", haxe_code)
-        self.assertIn("import openfl.display.Sprite;", haxe_code)
-
-    def test_transpile_converts_classes_and_base_class(self):
-        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
-        haxe_code = t.transpile()
-        self.assertIn("class Main extends Sprite {", haxe_code)
-
-    def test_transpile_exlcudes_base_class_for_non_derived_classes(self):
-        # Replace main.py with a non-derived class
-        python_code = TestFileTranspiler.MAIN_HX_PYTHON.replace("class Main(Sprite):", "class Awesome:")
-
-        with open(TestFileTranspiler._MAIN_FILE_PATH, "wt") as file:
-            file.write(python_code)
-        
-        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
-        haxe_code = t.transpile()
-        self.assertIn("class Awesome {", haxe_code)
-
     ### End series ###
