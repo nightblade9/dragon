@@ -1,15 +1,10 @@
+from dragon.transpiler.file.import_statement_transpiler import ImportStatementTranspiler
 import os
 import re
 
 class FileTranspiler:
 
     ### TODO: split each operation into a separate class
-
-    # We only support newstyle "from x import y". Applied line by line.
-    # The second grouping [a-zA-Z_] removes the final redundancy from the import
-    # eg. "from openfl.display.sprite import Sprite" ignores ".sprite"
-    _IMPORT_SEARCH_REGEX = r"^from ([a-zA-Z\._]+)\.[a-zA-Z_]+ import ([a-zA-Z_]+)"
-    _IMPORT_REPLACEMENT_REGEX = r"import \1.\2;"
 
     _CLASS_SEARCH_REGEX = r"class ([a-zA-Z]+)(\([a-zA-Z]+\))?:"
     _CLASS_REPLACEMENT_REGEX = r""
@@ -25,11 +20,9 @@ class FileTranspiler:
         with open(self._filename, "rt") as file:
             python_code = file.read()
 
-        # NB: the first transpile operation causes the rest of regex matches to fail
-        # Probably something to do with newlines
         code = python_code
         code = self._add_package_statement(code)
-        code = self._transform_imports(code)
+        code = ImportStatementTranspiler().transpile(code)
         code = self._transform_class_declaration(code)
         return code
 
@@ -47,18 +40,6 @@ class FileTranspiler:
         package_statement = "{};".format(package_statement)
         code = "{}\n{}".format(package_statement, code)
         return code
-
-    """
-    Converts imports of the form "from a.b.c import C" to "import a.b.C"
-    """
-    def _transform_imports(self, code):
-        code_lines = code.splitlines()
-        output = ""
-
-        for line in code_lines:
-            line = re.sub(FileTranspiler._IMPORT_SEARCH_REGEX, FileTranspiler._IMPORT_REPLACEMENT_REGEX, line)
-            output = "{}\n{}".format(output, line)
-        return output
 
     def _transform_class_declaration(self, code):
         # TODO: what if it's just a module, not a class?
