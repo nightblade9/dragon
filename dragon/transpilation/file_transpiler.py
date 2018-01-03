@@ -5,7 +5,7 @@ class FileTranspiler:
 
     # We only support newstyle "from x import y". Applied line by line.
     # The second grouping [a-zA-Z_] removes the final redundancy from the import
-    # eg. "from openfl.display.sprite import Sprite" ignores "sprite"
+    # eg. "from openfl.display.sprite import Sprite" ignores ".sprite"
     _IMPORT_REGEX = r"^from ([a-zA-Z\._]+)\.[a-zA-Z_]+ import ([a-zA-Z_]+)"
     
     def __init__(self, filename):
