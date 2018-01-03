@@ -1,7 +1,7 @@
 import distutils.dir_util
 import os
 import unittest
-from dragon.transpilation.file_transpiler import FileTranspiler
+from dragon.transpiler.file.file_transpiler import FileTranspiler
 
 class TestFileTranspiler(unittest.TestCase):
     ###
