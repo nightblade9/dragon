@@ -1,11 +1,11 @@
 import os
 
-class PackageStatementAdder:
+class AddPackageStatementCommand:
 
     """
     Adds a "package a.b.c;" statement depending on the file path.
     """
-    def add_package_statement(self, filename, code):
+    def execute(self, filename, code):
         path_only = os.path.split(filename)[0]
         packages = path_only.split(os.path.sep)
         package_statement = "package"

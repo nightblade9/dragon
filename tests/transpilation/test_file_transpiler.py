@@ -1,5 +1,5 @@
 import unittest
-from dragon.transpiler.file.file_transpiler import FileTranspiler
+from dragon.transpilation.file_transpiler import FileTranspiler
 
 class TestFileTranspiler(unittest.TestCase):
     def test_transpile_transpiles_main_py_to_haxe(self):

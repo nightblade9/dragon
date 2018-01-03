@@ -1,9 +1,9 @@
 import distutils.dir_util
+from dragon.transpilation.commands.transpile_class_declaration_command import TranspileClassDeclarationCommand
 import os
 import unittest
-from dragon.transpiler.file.class_declaration_transpiler import ClassDeclarationTranspiler
 
-class TestClassDeclarationTranspiler(unittest.TestCase):
+class TestTranspileClassDeclarationCommand(unittest.TestCase):
     ###
     # A series of "integration tests" that transpile the pythonified 
     # HaxeFlixel template (as of 4.3.0)
@@ -20,14 +20,14 @@ class Main(Sprite):
 """
 
     def test_transpile_converts_classes_and_base_class(self):
-        t = ClassDeclarationTranspiler()
-        haxe_code = t.transpile(TestClassDeclarationTranspiler._MAIN_HX_PYTHON)
+        t = TranspileClassDeclarationCommand()
+        haxe_code = t.execute(TestTranspileClassDeclarationCommand._MAIN_HX_PYTHON)
         self.assertIn("class Main extends Sprite {", haxe_code)
 
     def test_transpile_exlcudes_base_class_for_non_derived_classes(self):
         # Replace main.py with a non-derived class
-        python_code = TestClassDeclarationTranspiler._MAIN_HX_PYTHON.replace("class Main(Sprite):", "class Awesome:")
-        t = ClassDeclarationTranspiler()
-        haxe_code = t.transpile(python_code)
+        python_code = TestTranspileClassDeclarationCommand._MAIN_HX_PYTHON.replace("class Main(Sprite):", "class Awesome:")
+        t = TranspileClassDeclarationCommand()
+        haxe_code = t.execute(python_code)
         self.assertIn("class Awesome {", haxe_code)
       

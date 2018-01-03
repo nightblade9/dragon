@@ -1,6 +1,6 @@
 import re
 
-class ClassDeclarationTranspiler:
+class TranspileClassDeclarationCommand:
 
     _CLASS_SEARCH_REGEX = r"class ([a-zA-Z]+)(\([a-zA-Z]+\))?:"
     _CLASS_REPLACEMENT_REGEX = r""
@@ -8,14 +8,14 @@ class ClassDeclarationTranspiler:
     """
     Converts imports of the form "from a.b.c import C" to "import a.b.C"
     """
-    def transpile(self, code):
+    def execute(self, code):
         code = self._transform_class_declaration(code)
         return code
     
     def _transform_class_declaration(self, code):
         # TODO: what if it's just a module, not a class?
         output = code
-        match = re.search(ClassDeclarationTranspiler._CLASS_SEARCH_REGEX, output)
+        match = re.search(TranspileClassDeclarationCommand._CLASS_SEARCH_REGEX, output)
 
         if (match):
             class_name = match.group(1)

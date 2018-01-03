@@ -1,6 +1,6 @@
 import re
 
-class ImportStatementTranspiler:
+class TranspileImportStatementCommand:
     # We only support newstyle "from x import y". Applied line by line.
     # The second grouping [a-zA-Z_] removes the final redundancy from the import
     # eg. "from openfl.display.sprite import Sprite" ignores ".sprite"
@@ -10,7 +10,7 @@ class ImportStatementTranspiler:
     """
     Converts imports of the form "from a.b.c import C" to "import a.b.C"
     """
-    def transpile(self, code):
+    def execute(self, code):
         code = self._transform_imports(code)
         return code
     
@@ -19,6 +19,6 @@ class ImportStatementTranspiler:
         output = ""
 
         for line in code_lines:
-            line = re.sub(ImportStatementTranspiler._IMPORT_SEARCH_REGEX, ImportStatementTranspiler._IMPORT_REPLACEMENT_REGEX, line)
+            line = re.sub(TranspileImportStatementCommand._IMPORT_SEARCH_REGEX, TranspileImportStatementCommand._IMPORT_REPLACEMENT_REGEX, line)
             output = "{}\n{}".format(output, line)
         return output
