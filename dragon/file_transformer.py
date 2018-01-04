@@ -1,9 +1,13 @@
-from dragon.transpilation.commands.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
-from dragon.transpilation.commands.add_package_statement_command import AddPackageStatementCommand
-from dragon.transpilation.commands.transpile_class_declaration_command import TranspileClassDeclarationCommand
-from dragon.transpilation.commands.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
-from dragon.transpilation.commands.transpile_import_statement_command import TranspileImportStatementCommand
+from dragon.transpilation.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
+from dragon.transpilation.commands.add.add_package_statement_command import AddPackageStatementCommand
+from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
+from dragon.transpilation.commands.substitute.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
+from dragon.transpilation.commands.substitute.transpile_import_statement_command import TranspileImportStatementCommand
 
+"""
+The main class that handles converting code from Python to Haxe.
+It works on a file-by-file basis.
+"""
 class FileTransformer:
 
     def __init__(self, filename):

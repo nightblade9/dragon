@@ -2,7 +2,7 @@ import distutils.dir_util
 from helpers import test_data
 import os
 import unittest
-from dragon.transpilation.commands.add_package_statement_command import AddPackageStatementCommand
+from dragon.transpilation.commands.add.add_package_statement_command import AddPackageStatementCommand
 
 class TestAddPackageStatementCommand(unittest.TestCase):
     ###

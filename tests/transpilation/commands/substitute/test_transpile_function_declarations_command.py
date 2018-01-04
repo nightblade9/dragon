@@ -1,4 +1,4 @@
-from dragon.transpilation.commands.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
+from dragon.transpilation.commands.substitute.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
 from helpers import test_data
 import unittest
 

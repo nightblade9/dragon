@@ -2,7 +2,7 @@ import distutils.dir_util
 from helpers import test_data
 import os
 import unittest
-from dragon.transpilation.commands.transpile_import_statement_command import TranspileImportStatementCommand
+from dragon.transpilation.commands.substitute.transpile_import_statement_command import TranspileImportStatementCommand
 
 class TestTranspileImportStatementCommand(unittest.TestCase):
     _MAIN_HX_PYTHON = """

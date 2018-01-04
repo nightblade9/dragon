@@ -1,6 +1,6 @@
 import os
 import unittest
-from dragon.transpilation.file_transformer import FileTransformer
+from dragon.file_transformer import FileTransformer
 
 class TestFileTransformer(unittest.TestCase):
 
