@@ -17,12 +17,14 @@ class FileTranspiler:
         with open(self._filename, "rt") as file:
             python_code = file.read()
 
+        # TODO: super constructor calls (__init__ => new, super calls)
+        pipeline_steps = [AddPackageStatementCommand(self._filename), TranspileImportStatementCommand(),
+            TranspileClassDeclarationCommand(), AddIndentationCurlyBracesCommand(), TranspileFunctionDeclarationCommand()]
+
         code = python_code
-        code = AddPackageStatementCommand().execute(self._filename, code)
-        code = TranspileImportStatementCommand().execute(code)
-        code = TranspileClassDeclarationCommand().execute(code)
-        code = AddIndentationCurlyBracesCommand().execute(code)
-        code = TranspileFunctionDeclarationCommand().execute(code)
-        # super constructor calls (__init__ => new, super calls)
+
+        for step in pipeline_steps:
+            code = step.execute(code)
+        
         return code
 
