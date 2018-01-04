@@ -1,4 +1,4 @@
-class AddCurlyBracesCommand:
+class AddIndentationCurlyBracesCommand:
     
     _INDENTATION_SPACES = 4 # tabs are four spaces; expect four spaces in Python.
 
@@ -29,4 +29,4 @@ class AddCurlyBracesCommand:
     def _get_indentation_level(self, line):
         space_normalized_line = line.replace("\t", "    ")
         leading_spaces_count = len(space_normalized_line) - len(space_normalized_line.lstrip(' '))
-        return leading_spaces_count / AddCurlyBracesCommand._INDENTATION_SPACES
+        return leading_spaces_count / AddIndentationCurlyBracesCommand._INDENTATION_SPACES

@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 
+# TODO: this shouldn't be part of Dragon.
 class TemplateCreator:
 
     DEFAULT_OUTPUT_DIRECTORY = 'template' # directory to be created

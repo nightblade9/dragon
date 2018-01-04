@@ -1,11 +1,11 @@
-from dragon.transpilation.commands.add_curly_braces_command import AddCurlyBracesCommand
+from dragon.transpilation.commands.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
 from dragon.transpilation.commands.transpile_class_declaration_command import TranspileClassDeclarationCommand
 from helpers import test_data
 import unittest
 
-class TestAddCurlyBracesCommand(unittest.TestCase):
+class TestAddIndentationCurlyBracesCommand(unittest.TestCase):
     def test_execute_adds_all_curly_braces_required(self):
-        command = AddCurlyBracesCommand()
+        command = AddIndentationCurlyBracesCommand()
         # Not necessary but makes it easier to read the final code
         code = TranspileClassDeclarationCommand().execute(test_data.MAIN_HX_PYTHON)
         code = command.execute(code)
