@@ -4,16 +4,16 @@ from dragon.transpilation.commands.transpile_class_declaration_command import Tr
 from dragon.transpilation.commands.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
 from dragon.transpilation.commands.transpile_import_statement_command import TranspileImportStatementCommand
 
-class FileTranspiler:
+class FileTransformer:
 
     def __init__(self, filename):
         self._filename = filename
 
     """
-    Transpiles Python code to Haxe code.
+    Tranforms Python code to Haxe code.
     Returns the generated Haxe code.
     """
-    def transpile(self):
+    def transform(self):
         with open(self._filename, "rt") as file:
             python_code = file.read()
 

@@ -1,8 +1,8 @@
 import os
 import unittest
-from dragon.transpilation.file_transpiler import FileTranspiler
+from dragon.transpilation.file_transformer import FileTransformer
 
-class TestFileTranspiler(unittest.TestCase):
+class TestFileTransformer(unittest.TestCase):
 
     # Integration-test like test that expects a file, does some qualitative testing
     # For individual units (commands), see their respective command test-classes
@@ -21,16 +21,16 @@ class Main(Sprite):
 """
 
     def setUp(self):
-        os.makedirs(TestFileTranspiler._TEST_FILE_DIR)
-        with open(TestFileTranspiler._MAIN_FILE_PATH, "wt") as file:
-            file.write(TestFileTranspiler._MAIN_HX_PYTHON)
+        os.makedirs(TestFileTransformer._TEST_FILE_DIR)
+        with open(TestFileTransformer._MAIN_FILE_PATH, "wt") as file:
+            file.write(TestFileTransformer._MAIN_HX_PYTHON)
 
     def tearDown(self):
-        os.remove(TestFileTranspiler._MAIN_FILE_PATH)
-        os.removedirs(TestFileTranspiler._TEST_FILE_DIR)
+        os.remove(TestFileTransformer._MAIN_FILE_PATH)
+        os.removedirs(TestFileTransformer._TEST_FILE_DIR)
 
     def test_transpile_transpiles_main_py_to_haxe(self):
-        t = FileTranspiler(TestFileTranspiler._MAIN_FILE_PATH)
-        haxe_code = t.transpile()
+        t = FileTransformer(TestFileTransformer._MAIN_FILE_PATH)
+        haxe_code = t.transform()
         print(haxe_code)
         # TODO: add qualitative tests
