@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 
-# TODO: this shouldn't be part of Dragon.
+# TODO: move into Mars project
 class TemplateCreator:
 
     DEFAULT_OUTPUT_DIRECTORY = 'template' # directory to be created
