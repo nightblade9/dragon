@@ -14,7 +14,7 @@ class AddIndentationCurlyBracesCommand:
             add_character = ""
             if my_indentation_level > next_indentation_level:
                 # Completed a block
-                add_character = " }"
+                add_character = "\n}"
             elif my_indentation_level < next_indentation_level:
                 # Started a new block
                 add_character = " {"
