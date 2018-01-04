@@ -26,5 +26,7 @@ class FileTranspiler:
         for step in pipeline_steps:
             code = step.execute(code)
         
+        # TODO: simple token substitution, like elif => else if
+
         return code
 
