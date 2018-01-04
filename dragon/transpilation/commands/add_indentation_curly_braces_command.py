@@ -10,7 +10,6 @@ class AddIndentationCurlyBracesCommand:
             # Convert tabs into spaces so we count uniformly
             my_indentation_level = self._get_indentation_level(line)
             next_indentation_level = self._get_indentation_level(next_line)
-            print("({}) {}".format(my_indentation_level, line))
 
             add_character = ""
             if my_indentation_level > next_indentation_level:
