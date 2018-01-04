@@ -28,4 +28,4 @@ class AddIndentationCurlyBracesCommand:
     def _get_indentation_level(self, line):
         space_normalized_line = line.replace("\t", "    ")
         leading_spaces_count = len(space_normalized_line) - len(space_normalized_line.lstrip(' '))
-        return leading_spaces_count / AddIndentationCurlyBracesCommand._INDENTATION_SPACES
+        return leading_spaces_count // AddIndentationCurlyBracesCommand._INDENTATION_SPACES
