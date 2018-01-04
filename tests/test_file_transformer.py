@@ -30,7 +30,18 @@ class Main(Sprite):
         os.removedirs(TestFileTransformer._TEST_FILE_DIR)
 
     def test_transpile_transpiles_main_py_to_haxe(self):
+        # A series of tests for integration things, eg. class + brackets = "class X { ... }"
         t = FileTransformer(TestFileTransformer._MAIN_FILE_PATH)
         haxe_code = t.transform()
-        print(haxe_code)
-        # TODO: add qualitative tests
+
+        # Remove empty lines and trailing spaces
+        code_lines = [line.rstrip() for line in haxe_code.splitlines() if len(line.strip()) > 0]
+
+        self.assertIn("package temp;", code_lines[0]) # package is first line
+        self.assertIn("import flixel.FlxGame;", haxe_code) # import
+        self.assertIn("class Main extends Sprite {", haxe_code) # class + brace
+        #self.assertIn("function new() {", haxe_code) # initializer => constructor
+        #self.assertIn("super();", haxe_code) # Pythonic constructor format change
+        #self.assertIn("add_child(new FlxGame(0, 0, PlayState));", haxe_code) # final semicolon, constructor calls
+        self.assertIn("    }", code_lines[-2])
+        self.assertEqual("}", code_lines[-1])

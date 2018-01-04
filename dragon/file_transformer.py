@@ -22,6 +22,7 @@ class FileTransformer:
             python_code = file.read()
 
         # TODO: super constructor calls (__init__ => new, super calls)
+        # All of these should have an execute method that takes code as input and returns code as output
         pipeline_steps = [AddPackageStatementCommand(self._filename), TranspileImportStatementCommand(),
             TranspileClassDeclarationCommand(), AddIndentationCurlyBracesCommand(), TranspileFunctionDeclarationCommand()]
 
