@@ -14,3 +14,11 @@ class TestAddIndentationCurlyBracesCommand(unittest.TestCase):
         self.assertIn("class Main extends Sprite {", code) # class declaration has a brace
         self.assertIn("def __init__(self): {", code) # method has an opening brace
         self.assertEqual(code[-1], "}") # class has a closing brace
+
+    def test_execute_adds_multiple_close_braces_if_multiple_levels_drop(self):
+        # code jumps from inside-def to empty-line, that's two levels.
+        # The last two lines should progressively close braces.
+        code = AddIndentationCurlyBracesCommand().execute(test_data.MAIN_HX_PYTHON)
+        lines = code.splitlines()
+        self.assertIn("    }", lines[-2])
+        self.assertIn("}", lines[-1])

@@ -13,16 +13,17 @@ class AddIndentationCurlyBracesCommand:
 
             add_character = ""
             if my_indentation_level > next_indentation_level:
-                # Completed a block
-                add_character = "\n}"
+                # Completed one or more blocks
+                for n in range(my_indentation_level - next_indentation_level):
+                    num_levels = my_indentation_level - n - 1
+                    spaces = num_levels * AddIndentationCurlyBracesCommand._INDENTATION_SPACES * " "
+                    add_character = "{}\n{}}}".format(add_character, spaces)
             elif my_indentation_level < next_indentation_level:
                 # Started a new block
                 add_character = " {"
             
             output = "{}\n{}{}".format(output, line, add_character)
 
-        # Add a final closing-brace. Because, ya know, it's assumed to be a class.
-        output = "{}\n}}".format(output)
         return output
 
     def _get_indentation_level(self, line):
