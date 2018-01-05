@@ -3,6 +3,7 @@ import os
 import shutil
 import unittest
 
+# TODO: move into Mars project
 class TestTemplateCreator(unittest.TestCase):
 
     GENERATED_TEMPLATE_DIR = "delme"
