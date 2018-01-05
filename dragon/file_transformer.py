@@ -1,8 +1,9 @@
 from dragon.transpilation.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
 from dragon.transpilation.commands.add.add_package_statement_command import AddPackageStatementCommand
 from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
-from dragon.transpilation.commands.substitute.transpile_function_declarations_command import TranspileFunctionDeclarationCommand
-from dragon.transpilation.commands.substitute.transpile_import_statement_command import TranspileImportStatementCommand
+from dragon.transpilation.rules import line_substitution_rule
+from dragon.transpilation.rules.substitute.function_declaration_rule import FunctionDeclarationRule
+from dragon.transpilation.rules.substitute.import_statement_rule import ImportStatementRule
 
 """
 The main class that handles converting code from Python to Haxe.
@@ -21,16 +22,13 @@ class FileTransformer:
         with open(self._filename, "rt") as file:
             python_code = file.read()
 
-        # TODO: super constructor calls (__init__ => new, super calls)
-        # All of these should have an execute method that takes code as input and returns code as output
-        pipeline_steps = [AddPackageStatementCommand(self._filename), TranspileImportStatementCommand(),
-            TranspileClassDeclarationCommand(), AddIndentationCurlyBracesCommand(), TranspileFunctionDeclarationCommand()]
-
         code = python_code
+        code = AddPackageStatementCommand(self._filename).execute(code)
+        code = line_substitution_rule.apply(ImportStatementRule(), code)
+        code = TranspileClassDeclarationCommand().execute(code)
+        code = AddIndentationCurlyBracesCommand().execute(code)
+        code = line_substitution_rule.apply(FunctionDeclarationRule(), code)
 
-        for step in pipeline_steps:
-            code = step.execute(code)
-        
         # TODO: simple token substitution, like elif => else if
 
         return code

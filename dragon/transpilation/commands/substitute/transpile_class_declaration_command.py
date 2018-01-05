@@ -3,7 +3,6 @@ import re
 class TranspileClassDeclarationCommand:
 
     _CLASS_SEARCH_REGEX = r"class ([a-zA-Z]+)(\([a-zA-Z]+\))?:"
-    _CLASS_REPLACEMENT_REGEX = r""
 
     """
     Converts imports of the form "from a.b.c import C" to "import a.b.C"
