@@ -3,6 +3,7 @@ from dragon.transpilation.rules.line_substitution_rule import LineSubstitutionRu
 # Transpiles def(self, ...) => function(...) or def(...) => function(...)
 class FunctionDeclarationRule(LineSubstitutionRule):
 
+    # Not just the "def", but also removes arguments ... including "self"
     _FUNCTION_DECLARATION_SEARCH_REGEX = r"def ([a-zA-Z0-9_]+)(\([a-zA-Z0-9_, ]+\))?:"
     _FUNCTION_DECLARATION_REPLACEMENT_REGEX = r"function \1()"
 

@@ -45,3 +45,5 @@ class Main(Sprite):
         #self.assertIn("add_child(new FlxGame(0, 0, PlayState));", haxe_code) # final semicolon, constructor calls
         self.assertIn("    }", code_lines[-2])
         self.assertEqual("}", code_lines[-1])
+
+        print(haxe_code)
