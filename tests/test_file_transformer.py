@@ -20,6 +20,26 @@ class TestFileTransformer(unittest.TestCase):
         os.remove(TestFileTransformer._MAIN_FILE_PATH)
         os.removedirs(TestFileTransformer._TEST_FILE_DIR)
 
+    def test_transpile_correctly_transpiles_multiple_functions(self):
+        # Test a bug where the class generated a closing brace, although there
+        # are more functions below it.
+        with open(TestFileTransformer._MAIN_FILE_PATH, "at") as file:
+            file.write("""
+
+
+    def second_function(self):
+        print("HI!")
+""")
+
+        t = FileTransformer(TestFileTransformer._MAIN_FILE_PATH)
+        haxe_code = t.transform()
+        code_lines = [line.rstrip() for line in haxe_code.splitlines() if len(line.strip()) > 0]
+        
+        first_closing_brace = _get_line_number(code_lines, "    }")
+        next_line = code_lines[first_closing_brace + 1]
+        self.assertIn("function", next_line)
+        self.assertNotIn("}", next_line)
+
     def test_transpile_transpiles_main_py_to_haxe(self):
         # A series of tests for integration things, eg. class + brackets = "class X { ... }"
         t = FileTransformer(TestFileTransformer._MAIN_FILE_PATH)
@@ -38,3 +58,10 @@ class TestFileTransformer(unittest.TestCase):
         self.assertEqual("}", code_lines[-1])
 
         print(haxe_code)
+
+def _get_line_number(lines, search):
+    for num, line in enumerate(lines):
+        if line == search:
+            return num
+
+    raise LookupError("Can't find {} in {}".format(search, lines))
