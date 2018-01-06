@@ -8,11 +8,6 @@ class TranspileClassDeclarationCommand:
     Converts imports of the form "from a.b.c import C" to "import a.b.C"
     """
     def execute(self, code):
-        code = self._transform_class_declaration(code)
-        return code
-    
-    def _transform_class_declaration(self, code):
-        # TODO: what if it's just a module, not a class?
         output = code
         match = re.search(TranspileClassDeclarationCommand._CLASS_SEARCH_REGEX, output)
 

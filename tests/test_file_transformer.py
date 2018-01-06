@@ -1,6 +1,7 @@
+from dragon.file_transformer import FileTransformer
+from helpers import test_data
 import os
 import unittest
-from dragon.file_transformer import FileTransformer
 
 class TestFileTransformer(unittest.TestCase):
 
@@ -10,20 +11,10 @@ class TestFileTransformer(unittest.TestCase):
     _TEST_FILE_DIR = "temp"
     _MAIN_FILE_PATH = os.path.join(_TEST_FILE_DIR, "main.py")
 
-    _MAIN_HX_PYTHON = """
-from flixel.flx_game import FlxGame
-from openfl.display.sprite import Sprite
-
-class Main(Sprite):
-    def __init__(self):
-        super(Main, self).__init__()
-        add_child(FlxGame(0, 0, PlayState))
-"""
-
     def setUp(self):
         os.makedirs(TestFileTransformer._TEST_FILE_DIR)
         with open(TestFileTransformer._MAIN_FILE_PATH, "wt") as file:
-            file.write(TestFileTransformer._MAIN_HX_PYTHON)
+            file.write(test_data.MAIN_HX_PYTHON)
 
     def tearDown(self):
         os.remove(TestFileTransformer._MAIN_FILE_PATH)

@@ -1,5 +1,6 @@
 from dragon.transpilation.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
 from dragon.transpilation.commands.add.add_package_statement_command import AddPackageStatementCommand
+from dragon.transpilation.commands.remove.remove_blank_lines_command import RemoveBlankLinesCommand
 from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
 from dragon.transpilation.rules import line_substitution
 
@@ -21,6 +22,7 @@ class FileTransformer:
             python_code = file.read()
 
         code = python_code
+        code = RemoveBlankLinesCommand.execute(code)
         code = AddPackageStatementCommand(self._filename).execute(code)
         code = line_substitution.apply_regex(line_substitution.IMPORT_STATEMENT_RULE, code)
         code = TranspileClassDeclarationCommand().execute(code)
