@@ -7,7 +7,7 @@ class TranspileClassDeclarationCommand:
     """
     Converts imports of the form "from a.b.c import C" to "import a.b.C"
     """
-    def execute(self, code):
+    def execute(code):
         output = code
         match = re.search(TranspileClassDeclarationCommand._CLASS_SEARCH_REGEX, output)
 

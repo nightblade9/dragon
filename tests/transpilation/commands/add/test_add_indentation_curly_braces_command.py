@@ -7,7 +7,7 @@ class TestAddIndentationCurlyBracesCommand(unittest.TestCase):
     def test_execute_adds_all_curly_braces_required(self):
         command = AddIndentationCurlyBracesCommand()
         # Not necessary but makes it easier to read the final code
-        code = TranspileClassDeclarationCommand().execute(test_data.MAIN_HX_PYTHON)
+        code = TranspileClassDeclarationCommand.execute(test_data.MAIN_HX_PYTHON)
         code = command.execute(code)
 
         self.assertEqual(code.count("{"), code.count("}")) # equal braces

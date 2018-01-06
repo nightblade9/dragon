@@ -22,15 +22,13 @@ class Main(Sprite):
 """
 
     def test_transpile_converts_classes_and_base_class(self):
-        t = TranspileClassDeclarationCommand()
-        haxe_code = t.execute(test_data.MAIN_HX_PYTHON)
+        haxe_code = TranspileClassDeclarationCommand.execute(test_data.MAIN_HX_PYTHON)
         self.assertIn("class Main extends Sprite", haxe_code)
 
     def test_transpile_exlcudes_base_class_for_non_derived_classes(self):
         # Replace main.py with a non-derived class
         python_code = test_data.MAIN_HX_PYTHON.replace("class Main(Sprite):", "class Awesome:")
-        t = TranspileClassDeclarationCommand()
-        haxe_code = t.execute(python_code)
+        haxe_code = TranspileClassDeclarationCommand.execute(python_code)
         self.assertIn("class Awesome", haxe_code)
         self.assertNotIn("class Awesome extends", haxe_code)
       

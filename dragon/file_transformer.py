@@ -25,7 +25,7 @@ class FileTransformer:
         code = RemoveBlankLinesCommand.execute(code)
         code = AddPackageStatementCommand(self._filename).execute(code)
         code = line_substitution.apply_regex(line_substitution.IMPORT_STATEMENT_RULE, code)
-        code = TranspileClassDeclarationCommand().execute(code)
+        code = TranspileClassDeclarationCommand.execute(code)
         code = AddIndentationCurlyBracesCommand().execute(code)
         code = line_substitution.apply_regex(line_substitution.FUNCTION_DECLARATION_RULE, code)
 
