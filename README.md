@@ -21,3 +21,4 @@ Your Python code must obey the following rules. If this chafes you, feel free to
 - Every Python file must be a class. (Simple module code is not supported.)
 - Multiple inheritence is not supported. (We can always support this through composition later.)
 - Your Python code either should use four spaces per indentation level, or tabs (but not two spaces) as per PEP-8
+- Any code relying on existing Haxe APIs (eg. HaxeFlixel/OpenFL calls) should follow those convention names. Dragon does NOT automatically make method names "pythonic" (you should call `addChild` not `add_child`).
