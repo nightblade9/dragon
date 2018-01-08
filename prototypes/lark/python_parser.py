@@ -103,7 +103,7 @@ def test_template():
 
 def convert_and_print(tree, filename):
     with open(filename.replace('.py', '.hx'), 'wt') as f:
-        f.write("{}".format(tree))
+        f.write(tree.pretty())
 
 if __name__ == '__main__':
     # test_python_lib()
