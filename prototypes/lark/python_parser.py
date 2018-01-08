@@ -6,8 +6,20 @@ import glob, time
 from lark import Lark
 from lark.indenter import Indenter
 
+from haxe_transformer import HaxeTransformer
+
 __path__ = os.path.dirname(__file__)
 
+###########
+# TODO: create an abstraction that doesn't rely on Lark directly
+# TODO: create a hierarchial (and flag) list of nodes
+# This can be a dictionary of names and values, for example/
+# This helps us write unit-tests and be parser-agnostic.
+#
+# TODO: Lark gives us line-numbers. Write a second grammar on top
+# of the Python one (eg. for @:...), run it as a second pass, and
+# inject your changes in the right place in the source. Maybe.
+##########
 class PythonIndenter(Indenter):
     NL_type = '_NEWLINE'
     OPEN_PAREN_types = ['__LPAR', '__LSQB', '__LBRACE']
@@ -90,19 +102,22 @@ def test_template():
                 xrange
             except NameError:
                 tree = python_parser3.parse(_read(full_path) + '\n')
-                convert_and_print(tree, f)
             else:
                 tree = python_parser2.parse(_read(full_path) + '\n')
-                convert_and_print(tree, full_path)                
+            
+            HaxeTransformer().transform(tree)
+            convert_and_print(tree, full_path)              
         except:
             print ('Failure at %s' % f)
             raise
 
     end = time.time()
     print( "test_python_lib (%d files), time: %s secs"%(len(files), end-start) )
+    return tree
 
 def convert_and_print(tree, filename):
-    with open(filename.replace('.py', '.hx'), 'wt') as f:
+    filename = filename.replace('.py', '.hx')
+    with open(filename, 'wt') as f:
         f.write(tree.pretty())
 
 if __name__ == '__main__':
