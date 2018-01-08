@@ -92,7 +92,7 @@ def test_template():
     print("Parsing files at {}".format(path))
 
     start = time.time()
-    files = glob.glob(path+'/*.py')
+    files = glob.glob(path+'/main.py')
     for f in files:
         print("Parsing {}".format(f))
         try:
@@ -102,9 +102,12 @@ def test_template():
                 xrange
             except NameError:
                 tree = python_parser3.parse(_read(full_path) + '\n')
+                raw_tree = python_parser3.parse(_read(full_path) + '\n')
             else:
                 tree = python_parser2.parse(_read(full_path) + '\n')
+                raw_tree = python_parser2.parse(_read(full_path) + '\n')
             
+            print("{}".format(raw_tree))
             HaxeTransformer().transform(tree)
             convert_and_print(tree, full_path)              
         except:
@@ -113,6 +116,15 @@ def test_template():
 
     end = time.time()
     print( "test_python_lib (%d files), time: %s secs"%(len(files), end-start) )
+
+    # Make sure this worked.
+    with open(os.path.join("..", "..", "template", "source", "main.hx")) as f:
+        text = f.read()
+
+    if not HaxeTransformer.MARKER in text:
+        raise ValueError("Marker not found in text")
+    elif not "from flixel.flx_game import FlxGame" in text:
+        raise ValueError("Import not found in text")
     return tree
 
 def convert_and_print(tree, filename):

@@ -3,12 +3,14 @@ from lark import Transformer
 class HaxeTransformer(Transformer):
 
     _LAST_NODE = None
+    MARKER = "!!!"
 
-    def import_from(self, node):
+    def import_stmt(self, node):
         HaxeTransformer._LAST_NODE = node
 
         output = "from "
         
+        node = node[0].children # import_stmt => import_from
         package_name = node[0].children
         for child_node in package_name:
             output = "{}{}.".format(output, child_node.value)
@@ -19,3 +21,15 @@ class HaxeTransformer(Transformer):
 
         print("{} => {}".format(output, node))
         return output
+
+    # def file_input(self, node):
+    #     return HaxeTransformer.MARKER
+
+    # def compound_stmt(self, node):
+    #     return HaxeTransformer.MARKER
+
+    # def funcdef(self, node):
+    #     pass#return HaxeTransformer.MARKER
+
+    # def funccall(self, node):
+    #     return HaxeTransformer.MARKER
