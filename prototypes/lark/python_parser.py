@@ -108,7 +108,7 @@ def test_template():
                 raw_tree = python_parser2.parse(_read(full_path) + '\n')
             
             print("{}".format(raw_tree))
-            HaxeTransformer().transform(tree)
+            tree = HaxeTransformer().transform(tree)
             convert_and_print(tree, full_path)              
         except:
             print ('Failure at %s' % f)

@@ -1,6 +1,6 @@
-from flixel.flx_game import FlxGame
-from openfl.display.sprite import Sprite
-from play_state import PlayState
+from flixel import FlxGame
+from openfl.display import Sprite
+import PlayState
 
 class Main(Sprite):
     def __init__(self):
