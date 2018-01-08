@@ -1,21 +1,9 @@
 from lark import Transformer
 import sys
 
+# TODO: this class is heavily coupled to Lark
+# Is there a more abstract way to do this, so we can unit-test it better?
 class HaxeTransformer(Transformer):
-
-    _LAST_NODE = None
-    MARKER = "!!!"
-
-    def string(self, s):
-        return s[1:-1].replace('\\"', '"')
-
-    array = list
-    pair = tuple
-    object = dict
-
-    null = lambda self, _: None
-    true = lambda self, _: True
-    false = lambda self, _: False
 
     def import_stmt(self, node):
         HaxeTransformer._LAST_NODE = node
