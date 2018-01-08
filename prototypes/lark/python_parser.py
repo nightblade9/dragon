@@ -1,7 +1,3 @@
-#
-# This example demonstrates usage of the included Python grammars
-#
-
 import sys
 import os, os.path
 from io import open
@@ -18,8 +14,7 @@ class PythonIndenter(Indenter):
     CLOSE_PAREN_types = ['__RPAR', '__RSQB', '__RBRACE']
     INDENT_type = '_INDENT'
     DEDENT_type = '_DEDENT'
-    tab_len = 8
-
+    tab_len = 4
 
 grammar2_filename = os.path.join(__path__, 'python2.g')
 grammar3_filename = os.path.join(__path__, 'python3.g')
@@ -79,9 +74,39 @@ def test_earley_equals_lalr():
         tree2 = python_parser2_earley.parse(_read(os.path.join(path, f)) + '\n')
         assert tree1 == tree2
 
+def test_template():
+
+    path = os.path.join("..", "..", "template", "source")
+    print("Parsing files at {}".format(path))
+
+    start = time.time()
+    files = glob.glob(path+'/*.py')
+    for f in files:
+        print("Parsing {}".format(f))
+        try:
+            full_path = os.path.join(path, f)
+            # print list(python_parser.lex(_read(os.path.join(path, f)) + '\n'))
+            try:
+                xrange
+            except NameError:
+                tree = python_parser3.parse(_read(full_path) + '\n')
+                convert_and_print(tree, f)
+            else:
+                tree = python_parser2.parse(_read(full_path) + '\n')
+                convert_and_print(tree, full_path)                
+        except:
+            print ('Failure at %s' % f)
+            raise
+
+    end = time.time()
+    print( "test_python_lib (%d files), time: %s secs"%(len(files), end-start) )
+
+def convert_and_print(tree, filename):
+    with open(filename.replace('.py', '.hx'), 'wt') as f:
+        f.write("{}".format(tree))
 
 if __name__ == '__main__':
-    test_python_lib()
+    # test_python_lib()
     # test_earley_equals_lalr()
     # python_parser3.parse(_read(sys.argv[1]) + '\n')
-
+    test_template()
