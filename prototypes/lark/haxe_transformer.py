@@ -6,7 +6,6 @@ import sys
 class HaxeTransformer(Transformer):
 
     def import_stmt(self, node):
-        HaxeTransformer._LAST_NODE = node
 
         output = "import "
         
