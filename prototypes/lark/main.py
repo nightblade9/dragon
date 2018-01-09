@@ -45,17 +45,7 @@ def _read(fn, *args):
     with open(fn, *args, **kwargs) as f:
         return f.read()
 
-def _get_lib_path():
-    if os.name == 'nt':
-        if 'PyPy' in sys.version:
-            return os.path.join(sys.prefix, 'lib-python', sys.winver)
-        else:
-            return os.path.join(sys.prefix, 'Lib')
-    else:
-        return [x for x in sys.path if x.endswith('%s.%s' % sys.version_info[:2])][0]
-
 def test_template():
-
     path = os.path.join("..", "..", "template", "source")
     print("Parsing files at {}".format(path))
 
