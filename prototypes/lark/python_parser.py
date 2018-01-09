@@ -7,6 +7,7 @@ from lark import Lark
 from lark.indenter import Indenter
 
 from haxe_transformer import HaxeTransformer
+import haxe_visitor
 
 __path__ = os.path.dirname(__file__)
 
@@ -54,39 +55,6 @@ def _get_lib_path():
     else:
         return [x for x in sys.path if x.endswith('%s.%s' % sys.version_info[:2])][0]
 
-def test_python_lib():
-
-    path = _get_lib_path()
-
-    start = time.time()
-    files = glob.glob(path+'/*.py')
-    for f in files:
-        print( f )
-        try:
-            # print list(python_parser.lex(_read(os.path.join(path, f)) + '\n'))
-            try:
-                xrange
-            except NameError:
-                python_parser3.parse(_read(os.path.join(path, f)) + '\n')
-            else:
-                python_parser2.parse(_read(os.path.join(path, f)) + '\n')
-        except:
-            print ('At %s' % f)
-            raise
-
-    end = time.time()
-    print( "test_python_lib (%d files), time: %s secs"%(len(files), end-start) )
-
-def test_earley_equals_lalr():
-    path = _get_lib_path()
-
-    files = glob.glob(path+'/*.py')
-    for f in files:
-        print( f )
-        tree1 = python_parser2.parse(_read(os.path.join(path, f)) + '\n')
-        tree2 = python_parser2_earley.parse(_read(os.path.join(path, f)) + '\n')
-        assert tree1 == tree2
-
 def test_template():
 
     path = os.path.join("..", "..", "template", "source")
@@ -109,7 +77,8 @@ def test_template():
                 raw_tree = python_parser2.parse(_read(full_path) + '\n')
             
             print("{}".format(raw_tree))
-            tree = HaxeTransformer().transform(tree)
+            #tree = HaxeTransformer().transform(tree)
+            tree = haxe_visitor.process(raw_tree)
             convert_and_print(tree, full_path)              
         except:
             print ('Failure at %s' % f)
@@ -117,16 +86,6 @@ def test_template():
 
     end = time.time()
     print( "test_python_lib (%d files), time: %s secs"%(len(files), end-start) )
-
-    # Make sure this worked.
-    with open(os.path.join("..", "..", "template", "source", "main.hx")) as f:
-        text = f.read()
-
-    if not HaxeTransformer.MARKER in text:
-        raise ValueError("Marker not found in text")
-    elif not "from flixel.flx_game import FlxGame" in text:
-        raise ValueError("Import not found in text")
-    return tree
 
 def convert_and_print(tree, filename):
     filename = filename.replace('.py', '.hx')
