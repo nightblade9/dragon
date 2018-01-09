@@ -7,7 +7,6 @@ from lark import Lark
 from lark.indenter import Indenter
 
 from haxe_transformer import HaxeTransformer
-from haxe_visitor import HaxeVisitor
 
 __path__ = os.path.dirname(__file__)
 
@@ -77,8 +76,7 @@ def test_template():
                 raw_tree = python_parser2.parse(_read(full_path) + '\n')
             
             print("{}".format(raw_tree))
-            #tree = HaxeTransformer().transform(tree)
-            tree = HaxeVisitor().process(raw_tree)
+            tree = HaxeTransformer().transform(tree)
             convert_and_print(tree, full_path)              
         except:
             print ('Failure at %s' % f)

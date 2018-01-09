@@ -5,9 +5,8 @@ import sys
 # Is there a more abstract way to do this, so we can unit-test it better?
 class HaxeTransformer(Transformer):
 
+    # Transform from "x.a.b import B" (or "C") to "import x.a.b.B" or "import x.a.b.C"
     def import_stmt(self, node):
-        HaxeTransformer._LAST_NODE = node
-
         output = "import "
         
         node = node[0].children # import_stmt => import_from
