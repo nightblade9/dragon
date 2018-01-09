@@ -11,11 +11,12 @@ from haxe_transformer import HaxeTransformer
 __path__ = os.path.dirname(__file__)
 
 ###########
-# TODO: create an abstraction that doesn't rely on Lark directly
-# TODO: create a hierarchial (and flag) list of nodes
-# This can be a dictionary of names and values, for example/
-# This helps us write unit-tests and be parser-agnostic.
-#
+# TODO: turn this into an abstraction that doesn't rely on Lark directly
+# TODO: create a flat list of nodes. This can be a dictionary of names and
+# values, for example. This helps us write unit-tests and be parser-agnostic.
+# Ultimately, that's what the parser should do: return node (including the
+# original line) in a linear order so we can transform it.
+
 # TODO: Lark gives us line-numbers. Write a second grammar on top
 # of the Python one (eg. for @:...), run it as a second pass, and
 # inject your changes in the right place in the source. Maybe.
