@@ -1,5 +1,5 @@
-from dragon.transpilation.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
-from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
+from dragon.string_replacement.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
+from dragon.string_replacement.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
 from helpers import test_data
 import unittest
 

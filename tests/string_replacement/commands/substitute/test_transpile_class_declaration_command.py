@@ -1,5 +1,5 @@
 import distutils.dir_util
-from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
+from dragon.string_replacement.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
 from helpers import test_data
 
 import os

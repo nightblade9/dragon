@@ -1,4 +1,4 @@
-from dragon.transpilation.file_transformer import FileTransformer
+from dragon.string_replacement.file_transformer import FileTransformer
 from helpers import test_data
 import os
 import unittest

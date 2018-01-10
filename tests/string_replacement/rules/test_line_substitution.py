@@ -1,4 +1,4 @@
-from dragon.transpilation.rules import line_substitution
+from dragon.string_replacement.rules import line_substitution
 from helpers import test_data
 import unittest
 

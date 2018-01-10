@@ -1,8 +1,8 @@
-from dragon.transpilation.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
-from dragon.transpilation.commands.add.add_package_statement_command import AddPackageStatementCommand
-from dragon.transpilation.commands.remove.remove_blank_lines_command import RemoveBlankLinesCommand
-from dragon.transpilation.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
-from dragon.transpilation.rules import line_substitution
+from dragon.string_replacement.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
+from dragon.string_replacement.commands.add.add_package_statement_command import AddPackageStatementCommand
+from dragon.string_replacement.commands.remove.remove_blank_lines_command import RemoveBlankLinesCommand
+from dragon.string_replacement.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
+from dragon.string_replacement.rules import line_substitution
 
 """
 The main class that handles converting code from Python to Haxe.
