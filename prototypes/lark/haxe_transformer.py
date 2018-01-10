@@ -28,4 +28,10 @@ class HaxeTransformer(Transformer):
         return output
 
     def number(self, node):
-        return float(node[0].value)
+        HaxeTransformer.DEBUG_NODE = node
+        node_value = node[0].value
+
+        if "." in node_value:
+            return float(node_value)
+        else:
+            return int(node_value)
