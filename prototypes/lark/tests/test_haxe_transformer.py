@@ -32,4 +32,9 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.import_stmt(node)
         self.assertEqual("import openfl.display.Sprite", output)
 
-        
+    def test_number_transforms_numbers_to_floats(self):
+        for num in (0, 17.021, -183):
+            h = HaxeTransformer()
+            node = [Token("DEC_NUMBER", '{}'.format(num))]
+            output = h.number(node)
+            self.assertEqual(num, output)
