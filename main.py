@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 # TODO: move into Mars project
+import glob
+import os
 import sys
 
+from dragon.transpiler.python_to_haxe_transpiler import PythonToHaxeTranspiler
 from dragon.template_creator import TemplateCreator
 
 TEMPLATE_COMMAND = "template"
 VALID_COMMANDS = [TEMPLATE_COMMAND]
 
 def dragon(args):
-    if len(args) >= 1:
+    # Debug mode!
+    if len(args) == 0:
+        # Just transpile in-place for now.
+        source_path = os.path.join("template", "source")
+        files = glob.glob(os.path.join(source_path, "main.py"))
+        PythonToHaxeTranspiler(source_path, files).transpile()
+    elif len(args) >= 1:
         command = args[0]
         if command == TEMPLATE_COMMAND:
             if len(args) >= 2:
