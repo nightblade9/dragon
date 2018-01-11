@@ -40,8 +40,17 @@ class TestHaxeTransformer(unittest.TestCase):
             self.assertEqual(num, output)
 
     def test_number_transforms_integer_numbers_to_floats(self):
+        h = HaxeTransformer()
         for num in (0, 9999, -19232):
-            h = HaxeTransformer()
             node = [Token("DEC_NUMBER", '{}'.format(num))]
             output = h.number(node)
             self.assertEqual(num, output)
+
+    def test_var_returns_variable_name(self):
+        variable_names = ["Sprite", "some_variable", "out_of_100_monkeys"]
+        h = HaxeTransformer()
+
+        for token in variable_names:
+            node = [Token("NAME", variable_names)]
+            output = h.var(node)
+            self.assertEqual(variable_names, output)
