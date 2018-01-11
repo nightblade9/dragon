@@ -8,14 +8,10 @@ class HaxeTransformer(Transformer):
     DEBUG_NODE = None
 
     def funccall(self, node):
+        # TODO: definitely break this into multiple classes/methods
+
         HaxeTransformer.DEBUG_NODE = node
-        print("funccall: {}".format(node))
-
-        # caller_name = node[0].children[0].children[0].value
-        # function_name = node[0].children[1].value
-        # arguments = node[1].children
-
-        # print("{}.{}({})".format(caller_name, function_name, ", ".join(arguments)))
+        
 
     def import_stmt(self, node):
         # Import statement, probably of the form: from x.a.b import B
