@@ -18,7 +18,6 @@ class LarkTranspiler:
         grammar_path = sys.modules[__name__].__file__
         grammar_path = grammar_path[:grammar_path.rindex(os.path.sep)]
         grammar_filename = os.path.join(grammar_path, LarkTranspiler._PYTHON_3_GRAMMAR_FILENAME)
-        print("GRAMMAR AT {}".format(grammar_filename))
 
         with open(grammar_filename) as f:
             self._python_parser = Lark(f, parser=LarkTranspiler._PARSER, postlex=PythonIndenter(), start=LarkTranspiler._PARSER_START)
@@ -27,8 +26,6 @@ class LarkTranspiler:
         for filename in self._files:
             try:
                 tree = self._python_parser.parse(_read_contents(filename) + '\n')
-                
-                print("{}".format(tree))
                 tree = HaxeTransformer().transform(tree)
                 _convert_and_print(tree, filename)              
             except:
