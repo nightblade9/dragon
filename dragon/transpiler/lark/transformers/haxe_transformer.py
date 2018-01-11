@@ -11,7 +11,20 @@ class HaxeTransformer(Transformer):
         # TODO: definitely break this into multiple classes/methods
 
         HaxeTransformer.DEBUG_NODE = node
-        
+        # First parameter is a list
+        if type(node[0]) == str:
+            # Function call
+            method_name = node[0]
+            if method_name[0].isupper():
+                # Constructor call
+                print("constructor: {}".format(node))
+            else:
+                # Method call
+                print("method not on an obj: {}".format(node))
+
+        else:
+            # I have no idea what to do here.
+            print("call on an obj: {}".format(node))
 
     def import_stmt(self, node):
         # Import statement, probably of the form: from x.a.b import B
