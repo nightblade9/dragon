@@ -1,3 +1,4 @@
+from dragon.generators import haxe_generator
 from lark import Transformer
 import sys
 
@@ -50,13 +51,9 @@ class HaxeTransformer(Transformer):
         # Integer or decimal number
         HaxeTransformer.DEBUG_NODE = node
         node_value = node[0].value
-
-        if "." in node_value:
-            return float(node_value)
-        else:
-            return int(node_value)
+        return haxe_generator.number(node_value)
 
     def var(self, node):
         # Simple node with a variable name
         value = node[0].value
-        return value
+        return haxe_generator.value(value)
