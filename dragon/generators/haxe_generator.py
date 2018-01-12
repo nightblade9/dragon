@@ -6,10 +6,15 @@ def number(num_string):
 
 def import_statement(package_components, class_name):
     output = "import "
-    for child_node in package_components:
-        output = "{}{}.".format(output, child_node.value)
+    for component in package_components:
+        output = "{}{}.".format(output, component)
 
     output = "{}{}".format(output, class_name)
+    return output
+
+# Method calls. TODO: extract into a different class?
+def method_call(method_name, arguments):
+    output = "{}({})".format(method_name, ", ".join(arguments))
     return output
 
 def value(val):

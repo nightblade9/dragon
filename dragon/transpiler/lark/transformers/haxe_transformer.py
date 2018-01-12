@@ -20,12 +20,15 @@ class HaxeTransformer(Transformer):
                 # Constructor call
                 print("constructor: {}".format(node))
             else:
-                # Method call
-                print("method not on an obj: {}".format(node))
-
+                # Method call not on an object, eg. addChild(...)
+                method = node[0]
+                arguments = node[1].children
+                return haxe_generator.method_call(method, arguments)
         else:
             # I have no idea what to do here.
             print("call on an obj: {}".format(node))
+        
+        return node
 
     def import_stmt(self, node):
         # Import statement, probably of the form: from x.a.b import B
