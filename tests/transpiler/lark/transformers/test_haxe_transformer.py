@@ -51,6 +51,16 @@ class TestHaxeTransformer(unittest.TestCase):
         h = HaxeTransformer()
 
         for token in variable_names:
-            node = [Token("NAME", variable_names)]
+            node = [Token("NAME", token)]
             output = h.var(node)
-            self.assertEqual(variable_names, output)
+            self.assertEqual(token, output)
+        
+    def test_method_call_has_brackets_when_no_parameters(self):
+        h = HaxeTransformer()
+        output = h.funccall(['super', Tree("arguments", [])])
+        self.assertEqual("super()", output)
+
+    def test_method_call_generates_with_parameters(self):
+        h = HaxeTransformer()
+        output = h.funccall(['copyInstance', Tree("arguments", ['Sprite', 'self'])])
+        self.assertEqual("copyInstance(Sprite, self)", output)
