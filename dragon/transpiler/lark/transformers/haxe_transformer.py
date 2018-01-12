@@ -32,20 +32,18 @@ class HaxeTransformer(Transformer):
         output = "import "
         
         node = node[0].children # import_stmt => import_from
-        package_name = node[0].children
+        package_components = node[0].children
 
         if len(node) > 1:
             # import a.b.C
-            for child_node in package_name:
-                output = "{}{}.".format(output, child_node.value)
-
             class_name = node[1].children[0].children[0].value
             output = "{}{}".format(output, class_name)
         else:
             # import A
-            output = "{}{}".format(output, package_name[0].children[0].children[0].value)
+            class_name = package_components[0].children[0].children[0].value
+            package_components = []
 
-        return output
+        return haxe_generator.import_statement(package_components, class_name)
 
     def number(self, node):
         # Integer or decimal number
