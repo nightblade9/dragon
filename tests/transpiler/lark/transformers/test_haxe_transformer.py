@@ -4,6 +4,18 @@ from lark import Tree
 import unittest
 
 class TestHaxeTransformer(unittest.TestCase):
+    def test_arguments_returns_arguments(self):
+        h = HaxeTransformer()
+        args = [124, Tree("test", [])]
+        output = h.arguments(args)
+        self.assertEqual(args, output)
+
+    def test_arguments_quotes_strings(self):
+        h = HaxeTransformer()
+        args = ['a', 'b']
+        output = h.arguments(args)
+        self.assertEqual(['"a"', '"b"'], output)
+
     def test_import_stmt_transforms_simple_imports(self):
         h = HaxeTransformer()
 
@@ -31,6 +43,28 @@ class TestHaxeTransformer(unittest.TestCase):
 
         output = h.import_stmt(node)
         self.assertEqual("import openfl.display.Sprite", output)
+    
+    def test_method_call_has_brackets_when_no_parameters(self):
+        h = HaxeTransformer()
+        output = h.funccall(['super', Tree("arguments", [])])
+        self.assertEqual("super()", output)
+
+    def test_method_call_generates_with_parameters(self):
+        h = HaxeTransformer()
+        output = h.funccall(['copyInstance', Tree("arguments", ['Sprite', 'self'])])
+        self.assertEqual("copyInstance(Sprite, self)", output)
+
+    def test_method_call_specifies_target(self):
+        h = HaxeTransformer()
+        node = [Tree("getattr", ['super', Token("NAME", 'update')]), ['elapsed']]
+        output = h.funccall(node)
+        self.assertEqual("super.update(elapsed)", output)
+
+    def test_method_call_adds_new_to_constructor(self):
+        h = HaxeTransformer()
+        node = ['FlxGame', [0, 0, 'PlayState']]
+        output = h.funccall(node)
+        self.assertEqual("new FlxGame(0, 0, PlayState)", output)
 
     def test_number_transforms_decimal_numbers_to_floats(self):
         for num in (0.0, 17.021, -183.123456):
@@ -55,12 +89,3 @@ class TestHaxeTransformer(unittest.TestCase):
             output = h.var(node)
             self.assertEqual(token, output)
         
-    def test_method_call_has_brackets_when_no_parameters(self):
-        h = HaxeTransformer()
-        output = h.funccall(['super', Tree("arguments", [])])
-        self.assertEqual("super()", output)
-
-    def test_method_call_generates_with_parameters(self):
-        h = HaxeTransformer()
-        output = h.funccall(['copyInstance', Tree("arguments", ['Sprite', 'self'])])
-        self.assertEqual("copyInstance(Sprite, self)", output)

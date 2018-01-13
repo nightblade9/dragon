@@ -25,7 +25,6 @@ class HaxeTransformer(Transformer):
             method_name = node[0]
             if method_name[0].isupper():
                 # Constructor call
-                print("constructor: {}".format(node))
                 constructor_class = node[0]
                 arguments = node[1]
 
