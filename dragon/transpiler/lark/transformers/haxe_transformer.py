@@ -1,5 +1,6 @@
 from dragon.generators import haxe_generator
 from lark import Transformer
+from lark import Tree
 import sys
 
 # TODO: this class is heavily coupled to Lark
@@ -8,10 +9,16 @@ class HaxeTransformer(Transformer):
 
     DEBUG_NODE = None
 
+    def arguments(self, node):
+        arguments = node
+        return haxe_generator.arguments(node)
+
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
 
         HaxeTransformer.DEBUG_NODE = node
+        arguments = []
+        
         # First parameter is a list
         if type(node[0]) == str:
             # Function call
@@ -19,14 +26,27 @@ class HaxeTransformer(Transformer):
             if method_name[0].isupper():
                 # Constructor call
                 print("constructor: {}".format(node))
+                constructor_class = node[0]
+                arguments = node[1]
+
+                return haxe_generator.method_call({"method_name": constructor_class,
+                    "arguments": arguments, "is_constructor": True})
             else:
                 # Method call not on an object, eg. addChild(...)
-                method = node[0]
-                arguments = node[1].children
-                return haxe_generator.method_call(method, arguments)
+                method_name = node[0]
+                arguments = _args_to_list(node[1])
+                return haxe_generator.method_call({"method_name": method_name,
+                    "arguments": arguments})
         else:
-            # I have no idea what to do here.
-            print("call on an obj: {}".format(node))
+            # Call on an object, eg. a.b(c, d)
+            target = node[0].children[0]
+            method_name = node[0].children[1].value
+
+            if len(node) > 1:
+                arguments = _args_to_list(node[1])
+
+            return haxe_generator.method_call({"method_name": method_name,
+                "arguments": arguments, "target": target})
         
         return node
 
@@ -58,3 +78,11 @@ class HaxeTransformer(Transformer):
         # Simple node with a variable name
         value = node[0].value
         return haxe_generator.value(value)
+
+def _args_to_list(node):
+    if isinstance(node, Tree):
+        return node.children
+    elif isinstance(node, list):
+        return node
+    else:
+        raise NotImplementedError("Not sure how to parse {} ({}) for args".format(type(node), node))
