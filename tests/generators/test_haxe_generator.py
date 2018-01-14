@@ -40,10 +40,10 @@ class TestHaxeGenerator(unittest.TestCase):
         self.assertEqual("monster.damage(28)", output)
 
     def test_method_call_generates_constructor(self):
-        output = haxe_generator.method_call({"method_name": "Monster", "arguments": [20, 5, 1],
+        output = haxe_generator.method_call({"method_name": "Monster", "arguments": ['"assets/images/duck.png"', 5, 1],
             "is_constructor": True})
 
-        self.assertEqual('new Monster(20, 5, 1)', output)
+        self.assertEqual('new Monster("assets/images/duck.png", 5, 1)', output)
 
     def test_number_transforms_decimal_numbers_to_floats(self):
         for num in (0.0, 17.021, -183.123456):
