@@ -73,6 +73,12 @@ class HaxeTransformer(Transformer):
         node_value = node[0].value
         return haxe_generator.number(node_value)
 
+    def parameters(self, data):
+        if data[0] == "self":
+            data = data[1:]
+        arguments = list(map((lambda d: d.value), data))
+        return haxe_generator.arguments(arguments)
+
     def var(self, node):
         # Simple node with a variable name
         value = node[0].value

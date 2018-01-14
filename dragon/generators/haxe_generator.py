@@ -1,16 +1,5 @@
 def arguments(args):
-    to_return = []
-
-    for arg in args:
-        if isinstance(arg, str):
-            if '"' in arg:
-                to_return.append("'{}'".format(arg))
-            else:
-                to_return.append('"{}"'.format(arg))
-        else:
-            to_return.append(value(arg))
-
-    return to_return
+    return [v for v in args]
 
 def import_statement(package_components, class_name):
     output = "import "

@@ -14,7 +14,7 @@ class TestHaxeTransformer(unittest.TestCase):
         h = HaxeTransformer()
         args = ['a', 'b']
         output = h.arguments(args)
-        self.assertEqual(['"a"', '"b"'], output)
+        self.assertEqual(['a', 'b'], output)
 
     def test_import_stmt_transforms_simple_imports(self):
         h = HaxeTransformer()
@@ -79,6 +79,12 @@ class TestHaxeTransformer(unittest.TestCase):
             node = [Token("DEC_NUMBER", '{}'.format(num))]
             output = h.number(node)
             self.assertEqual(num, output)
+
+    def test_parameters_returns_first_self_params_returns_values_as_list(self):
+        h = HaxeTransformer()
+        data = [Token("NAME", 'self'), Token("NAME", 'elapsed'), Token("NAME", 'mode')]
+        output = h.parameters(data)
+        self.assertEqual(output, ["elapsed", "mode"])
 
     def test_var_returns_variable_name(self):
         variable_names = ["Sprite", "some_variable", "out_of_100_monkeys"]
