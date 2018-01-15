@@ -1,4 +1,4 @@
-from flixel.flx_state import FlxState
+from flixel import FlxState
 
 class PlayState(FlxState):
 

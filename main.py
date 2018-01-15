@@ -15,7 +15,7 @@ def dragon(args):
     if len(args) == 0:
         # Just transpile in-place for now.
         source_path = os.path.join("template", "source")
-        files = glob.glob(os.path.join(source_path, "main.py"))
+        files = glob.glob(os.path.join(source_path, "*.py"))
         PythonToHaxeTranspiler(source_path, files).transpile()
     elif len(args) >= 1:
         command = args[0]

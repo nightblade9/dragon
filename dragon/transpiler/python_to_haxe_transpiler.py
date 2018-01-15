@@ -11,7 +11,6 @@ class PythonToHaxeTranspiler:
         transpiler = LarkTranspiler()
         for filename in self._files:
             code = transpiler.transpile(filename)
-            print("f={} s={}".format(filename, self._source_path))
             code = _add_package_statement(self._source_path, filename, code)
             self._convert_and_print(code, filename)              
 

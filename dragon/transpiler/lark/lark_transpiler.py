@@ -30,8 +30,7 @@ class LarkTranspiler:
 
         validator = LarkValidator(self.grammar_filename)
         if not validator.is_fully_parsed(code):
-            #raise NotImplementedError
-            print("{} is not fully parsable.".format(filename))
+            raise NotImplementedError("{} is not fully parsable.".format(filename))
 
         return code
 
