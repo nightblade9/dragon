@@ -37,6 +37,13 @@ class TestHaxeGenerator(unittest.TestCase):
         data = ["first line", "second line", "third line!"]
         output = haxe_generator.list_to_newline_separated_text(data)
         self.assertEqual("\n".join(data), output)
+        self.assertNotIn(";", output)
+
+    def test_list_to_newline_separated_text_generates_text_with_newlines(self):
+        data = ["first line", "second line", "third line!"]
+        output = haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
+        self.assertEqual("first line;\nsecond line;\nthird line!;", output)
+        self.assertEqual(len(data), output.count(";"))
 
     def test_method_call_has_brackets_when_no_parameters(self):
         output = haxe_generator.method_call({"method_name": "destroy", "arguments": []})

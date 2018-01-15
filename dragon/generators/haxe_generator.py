@@ -15,7 +15,15 @@ def import_statement(package_components, class_name):
     output = "{}{};".format(output, class_name)
     return output
 
-def list_to_newline_separated_text(data):
+def list_to_newline_separated_text(data, suffix_semicolons=False):
+    if suffix_semicolons:
+        to_return = []
+        for line in data:
+            if "{" not in line and "}" not in line:
+                line = "{};".format(line)
+            to_return.append(line)        
+        data = to_return
+        
     return "\n".join(data)
 
 # Method calls. TODO: extract into a different class?
