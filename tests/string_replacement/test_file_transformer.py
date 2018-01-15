@@ -57,8 +57,6 @@ class TestFileTransformer(unittest.TestCase):
         self.assertIn("    }", code_lines[-2])
         self.assertEqual("}", code_lines[-1])
 
-        print(haxe_code)
-
 def _get_line_number(lines, search):
     for num, line in enumerate(lines):
         if line == search:

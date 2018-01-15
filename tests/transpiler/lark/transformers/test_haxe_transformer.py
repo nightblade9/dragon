@@ -10,7 +10,7 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.arguments(args)
         self.assertEqual(args, output)
     
-    def test_class_definition_creates_non_base_class(self):
+    def test_classdef_creates_non_base_class(self):
         h = HaxeTransformer()
         data = [Token("NAME", 'Monster'), [''], 'function new() { super() }']
         output = h.classdef(data)
@@ -20,7 +20,7 @@ class TestHaxeTransformer(unittest.TestCase):
         self.assertIn("{", output)
         self.assertIn("}", output)
 
-    def test_class_definition_creates_subclass(self):
+    def test_classdef_creates_subclass(self):
         h = HaxeTransformer()
         data = [Token("NAME", 'Main'), ['Sprite'], 'function new() { super().__init__()\nself.addChild(new FlxGame(0, 0, PlayState)) }']
         output = h.classdef(data)
@@ -29,6 +29,15 @@ class TestHaxeTransformer(unittest.TestCase):
         self.assertIn("{", output)
         self.assertIn("}", output)
         self.assertIn("addChild", output)        
+
+    def test_classdef_removes_semicolon_superclass(self):
+        # Semicolon is probably a result of our semicolon-adding elsewhere
+        # We should fix that first!
+        h = HaxeTransformer()
+        data = [Token("NAME", 'AssetPaths'), ';']
+        output = h.classdef(data)
+        self.assertIn("class AssetPaths", output)
+        self.assertNotIn(";", output)
 
     def test_compound_stmt_returns_newline_separated_text(self):
         h = HaxeTransformer()

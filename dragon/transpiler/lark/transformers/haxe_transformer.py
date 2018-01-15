@@ -8,30 +8,46 @@ import sys
 # Is there a more abstract way to do this, so we can unit-test it better?
 class HaxeTransformer(Transformer):
 
+    # Arguments to a method call
     def arguments(self, node):
         arguments = node
         return haxe_generator.arguments(node)
 
+    # The "header" definition of a class (name + subclasses)
     def classdef(self, data):
         class_name = data[0].value
-        base_classes = data[1]
+
+        # Somehow, for asset_paths.py, we get a ";" as the class path. This seems
+        # like a smell that we have to properly fix; this is just a crude fix.
+        base_classes = [x for x in data[1] if x != ";"]
 
         # throw if more than one base class
         lark_validator.validate_class_definition(class_name, base_classes)
 
-        base_class = base_classes[0]
-        class_body = data[2]
+        base_class = ""
+        if len(base_classes):
+            base_class = base_classes[0]
+            
+        class_body = ""
+        # Some classes have just "pass" as the body, which we remove
+        # In that case ... there is no body.
+        if len(data) >= 3:
+            class_body = data[2]
 
         return haxe_generator.class_definition(class_name, base_class, class_body)
 
+    # A bunch of code lines thrown together.
     def compound_stmt(self, data):
         return haxe_generator.list_to_newline_separated_text(data)
 
+    # The first node of every file.
     # This turns the output from a tree into a flat list, which is bad.
     # Alternatively, it removes the file_input line starting each file.
     def file_input(self, data):
         return data
 
+    # Function calls; could be constructors, simple calls, calls on
+    # some sort of object, etc.
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
 
@@ -76,6 +92,7 @@ class HaxeTransformer(Transformer):
         
         return node
 
+    # The definition of a new function
     def funcdef(self, data):
         method_name = data[0].value
         arguments = data[1] # list
@@ -84,8 +101,8 @@ class HaxeTransformer(Transformer):
         # methods named __init__ are mapped to new()
         return haxe_generator.method_declaration(method_name, arguments, function_body)
 
+    # Import statement, probably of the form: from x.a.b import B
     def import_stmt(self, node):
-        # Import statement, probably of the form: from x.a.b import B
         node = node[0].children # import_stmt => import_from
         package_components = node[0].children
 
@@ -99,22 +116,28 @@ class HaxeTransformer(Transformer):
 
         return haxe_generator.import_statement(package_components, class_name)
 
+    # Integer or decimal number
     def number(self, node):
-        # Integer or decimal number
         node_value = node[0].value
         return haxe_generator.number(node_value)
 
+    # Parameters to a method call
     def parameters(self, data):
         if data[0] == "self":
             data = data[1:]
         arguments = list(map((lambda d: d.value), data))
         return haxe_generator.arguments(arguments)
+    
+    # There's no equivalent of this in Haxe. It's not required; empty blocks are ok.
+    def pass_stmt(self, data):
+        return ""
 
+    # A bunch of code lines thrown together
     def suite(self, data):
         return haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
 
+    # Simple node with a variable name
     def var(self, node):
-        # Simple node with a variable name
         value = node[0].value
         return haxe_generator.value(value)
 
