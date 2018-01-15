@@ -9,6 +9,18 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.arguments(args)
         self.assertEqual(args, output)
 
+    def test_class_definition_creates_non_base_class(self):
+        output = haxe_generator.class_definition("Monster", "", "")
+        self.assertIn("class Monster", output)
+        self.assertIn("{", output)
+        self.assertIn("}", output)
+
+    def test_class_definition_creates_subclass(self):
+        output = haxe_generator.class_definition("Monster", "HelixSprite", "")
+        self.assertIn("class Monster extends HelixSprite", output)
+        self.assertIn("{", output)
+        self.assertIn("}", output)
+
     def test_import_statement_transforms_simple_imports(self):
         output = haxe_generator.import_statement([], "PlayState")
         self.assertEqual("import PlayState;", output)

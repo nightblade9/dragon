@@ -1,6 +1,12 @@
 def arguments(args):
     return [v for v in args]
 
+def class_definition(class_name, base_class, class_body):
+    return "class {}{} {{ {} }}".format(
+        class_name,
+        "" if base_class == "" else " extends {}".format(base_class),
+        class_body)
+
 def import_statement(package_components, class_name):
     output = "import "
     for component in package_components:

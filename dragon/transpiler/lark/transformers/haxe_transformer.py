@@ -24,10 +24,7 @@ class HaxeTransformer(Transformer):
         base_class = base_classes[0]
         class_body = data[2]
 
-        return "class {}{} {{ {} }}".format(
-            class_name,
-            "" if base_class == "" else " extends {}".format(base_class),
-            class_body)
+        return haxe_generator.class_definition(class_name, base_class, class_body)
 
     def compound_stmt(self, data):
         print("COMP {}".format(data))

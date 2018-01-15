@@ -10,6 +10,26 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.arguments(args)
         self.assertEqual(args, output)
     
+    def test_class_definition_creates_non_base_class(self):
+        h = HaxeTransformer()
+        data = [Token("NAME", 'Monster'), [''], 'function new() { super() }']
+        output = h.classdef(data)
+
+        self.assertIn("class Monster", output)
+        self.assertIn("()", output)
+        self.assertIn("{", output)
+        self.assertIn("}", output)
+
+    def test_class_definition_creates_subclass(self):
+        h = HaxeTransformer()
+        data = [Token("NAME", 'Main'), ['Sprite'], 'function new() { super().__init__()\nself.addChild(new FlxGame(0, 0, PlayState)) }']
+        output = h.classdef(data)
+        
+        self.assertIn("class Main extends Sprite", output)
+        self.assertIn("{", output)
+        self.assertIn("}", output)
+        self.assertIn("addChild", output)        
+
     def test_funccall_has_brackets_when_no_parameters(self):
         h = HaxeTransformer()
         output = h.funccall(['super', Tree("arguments", [])])
