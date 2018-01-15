@@ -33,6 +33,11 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.import_statement(["openfl", "display"], "Sprite")
         self.assertEqual("import openfl.display.Sprite;", output)
     
+    def test_list_to_newline_separated_text_generates_text_with_newlines(self):
+        data = ["first line", "second line", "third line!"]
+        output = haxe_generator.list_to_newline_separated_text(data)
+        self.assertEqual("\n".join(data), output)
+
     def test_method_call_has_brackets_when_no_parameters(self):
         output = haxe_generator.method_call({"method_name": "destroy", "arguments": []})
         self.assertEqual("destroy()", output)

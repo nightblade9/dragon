@@ -15,6 +15,9 @@ def import_statement(package_components, class_name):
     output = "{}{};".format(output, class_name)
     return output
 
+def list_to_newline_separated_text(data):
+    return "\n".join(data)
+
 # Method calls. TODO: extract into a different class?
 def method_call(data):
     method_name = data["method_name"]

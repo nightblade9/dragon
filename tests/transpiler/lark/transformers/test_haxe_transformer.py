@@ -30,6 +30,12 @@ class TestHaxeTransformer(unittest.TestCase):
         self.assertIn("}", output)
         self.assertIn("addChild", output)        
 
+    def test_compound_stmt_returns_newline_separated_text(self):
+        h = HaxeTransformer()
+        data = ["first line", "second line", "third line!"]
+        output = h.compound_stmt(data)
+        self.assertEqual("\n".join(data), output)
+
     def test_funccall_has_brackets_when_no_parameters(self):
         h = HaxeTransformer()
         output = h.funccall(['super', Tree("arguments", [])])

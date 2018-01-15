@@ -27,8 +27,7 @@ class HaxeTransformer(Transformer):
         return haxe_generator.class_definition(class_name, base_class, class_body)
 
     def compound_stmt(self, data):
-        print("COMP {}".format(data))
-        return "\n".join(data)
+        return haxe_generator.list_to_newline_separated_text(data)
 
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
