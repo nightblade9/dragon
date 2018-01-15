@@ -126,11 +126,11 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.parameters(data)
         self.assertEqual(output, ["elapsed", "mode"])
 
-    def test_suite_returns_newline_separated_text(self):
+    def test_suite_returns_newline_separated_text_with_semicolons(self):
         h = HaxeTransformer()
         data = ["first line", "second line", "third line!"]
         output = h.suite(data)
-        self.assertEqual("\n".join(data), output)        
+        self.assertEqual("first line;\nsecond line;\nthird line!;", output)
 
     def test_var_returns_variable_name(self):
         variable_names = ["Sprite", "some_variable", "out_of_100_monkeys"]

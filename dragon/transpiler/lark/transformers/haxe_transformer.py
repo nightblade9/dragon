@@ -107,7 +107,14 @@ class HaxeTransformer(Transformer):
         return haxe_generator.arguments(arguments)
 
     def suite(self, data):
-        return haxe_generator.list_to_newline_separated_text(data)
+        to_return = []
+        for line in data:
+            if "{" not in line and "}" not in line:
+                line = "{};".format(line)
+            to_return.append(line)
+        
+        to_return = haxe_generator.list_to_newline_separated_text(to_return)
+        return to_return
 
     def var(self, node):
         # Simple node with a variable name
