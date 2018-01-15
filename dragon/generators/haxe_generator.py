@@ -2,7 +2,7 @@ def arguments(args):
     return [v for v in args]
 
 def class_definition(class_name, base_class, class_body):
-    return "class {}{} {{ {} }}".format(
+    return "class {}{} {{\n{}\n}}".format(
         class_name,
         "" if base_class == "" else " extends {}".format(base_class),
         class_body)
@@ -23,7 +23,7 @@ def list_to_newline_separated_text(data, suffix_semicolons=False):
                 line = "{};".format(line)
             to_return.append(line)        
         data = to_return
-        
+
     return "\n".join(data)
 
 # Method calls. TODO: extract into a different class?
@@ -46,7 +46,7 @@ def method_call(data):
     return output
 
 def method_declaration(method_name, arguments, method_body):
-    return "function {}({}) {{ {} }}".format(method_name, ",".join(arguments), method_body)
+    return "function {}({}) {{\n{}\n}}".format(method_name, ",".join(arguments), method_body)
 
 def number(num_string):
     if "." in num_string:
