@@ -1,3 +1,4 @@
+from dragon.transpiler.lark.validators import lark_validator
 from dragon.transpiler.lark.validators.lark_validator import LarkValidator
 from lark.lexer import Token
 from lark import Tree
@@ -21,3 +22,15 @@ class TestLarkValidator(unittest.TestCase):
 
         validator = LarkValidator(TestLarkValidator._GRAMMAR_LOCATION)
         self.assertFalse(validator.is_fully_parsed(tree))
+
+    def test_validate_class_definition_allows_empty_base_class(self):
+        # Doesn't throw
+        lark_validator.validate_class_definition("Entity", [])
+
+    def test_validate_class_definition_allows_one_base_class(self):
+        # Doesn't throw
+        lark_validator.validate_class_definition("Player", ["Entity"])
+
+    def test_validate_class_definition_throws_if_multiple_base_classes_are_specified(self):
+        with self.assertRaises(ValueError) as ex:
+            lark_validator.validate_class_definition("Player", ["Entity", "FlxSprite"])

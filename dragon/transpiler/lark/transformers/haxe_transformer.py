@@ -1,4 +1,5 @@
 from dragon.generators import haxe_generator
+from dragon.transpiler.lark.validators import lark_validator
 from lark import Transformer
 from lark import Tree
 import sys
@@ -15,13 +16,17 @@ class HaxeTransformer(Transformer):
 
     def classdef(self, data):
         class_name = data[0].value
-        super_classes = data[1]
-        # throw if super_classes > 1. In validator.
-        super_class = super_classes[0]
+        base_classes = data[1]
+
+        # throw if more than one base class
+        lark_validator.validate_class_definition(class_name, base_classes)
+
+        base_class = base_classes[0]
         class_body = data[2]
+
         return "class {}{} {{ {} }}".format(
             class_name,
-            "" if super_class == "" else " extends {}".format(super_class),
+            "" if base_class == "" else " extends {}".format(base_class),
             class_body)
 
     def compound_stmt(self, data):

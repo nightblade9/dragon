@@ -24,7 +24,6 @@ class LarkValidator:
         
         return True
              
-
     def _extract_tokens(self, grammar_filename):
         with open(grammar_filename, "rt") as f:
             grammar = f.read()
@@ -37,3 +36,7 @@ class LarkValidator:
             if match:
                 token = match.group(1)
                 self._tokens.append(token)
+
+def validate_class_definition(class_name, base_classes):
+    if len(base_classes) > 1:
+        raise ValueError("Class {} should not have more than one base class: {}".format(class_name, base_classes))
