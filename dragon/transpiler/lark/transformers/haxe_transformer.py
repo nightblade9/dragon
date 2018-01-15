@@ -82,7 +82,6 @@ class HaxeTransformer(Transformer):
         function_body = data[2]
 
         # methods named __init__ are mapped to new()
-        method_name = "new" if method_name == "__init__" else method_name
         return haxe_generator.method_declaration(method_name, arguments, function_body)
 
     def import_stmt(self, node):

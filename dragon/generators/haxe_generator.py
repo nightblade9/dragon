@@ -46,6 +46,7 @@ def method_call(data):
     return output
 
 def method_declaration(method_name, arguments, method_body):
+    method_name = "new" if method_name == "__init__" else method_name
     return "function {}({}) {{\n{}\n}}".format(method_name, ",".join(arguments), method_body)
 
 def number(num_string):
