@@ -9,10 +9,6 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.arguments(args)
         self.assertEqual(args, output)
 
-    def test_arguments_quotes_strings(self):
-        output = haxe_generator.arguments(['a', 'b'])
-        self.assertEqual(output, ['a', 'b'])
-
     def test_import_statement_transforms_simple_imports(self):
         output = haxe_generator.import_statement([], "PlayState")
         self.assertEqual("import PlayState", output)

@@ -10,12 +10,6 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.arguments(args)
         self.assertEqual(args, output)
 
-    def test_arguments_quotes_strings(self):
-        h = HaxeTransformer()
-        args = ['a', 'b']
-        output = h.arguments(args)
-        self.assertEqual(['a', 'b'], output)
-
     def test_import_stmt_transforms_simple_imports(self):
         h = HaxeTransformer()
 
