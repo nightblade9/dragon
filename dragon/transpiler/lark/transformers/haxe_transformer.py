@@ -23,6 +23,7 @@ class HaxeTransformer(Transformer):
         if type(node[0]) == str:
             # Function call
             method_name = node[0]
+            
             if method_name[0].isupper():
                 # Constructor call
                 constructor_class = node[0]
@@ -34,6 +35,15 @@ class HaxeTransformer(Transformer):
                 # Method call not on an object, eg. addChild(...)
                 method_name = node[0]
                 arguments = _args_to_list(node[1])
+
+                # If this is a constructor calling the base class constructor, remove
+                # the parameters if the second one is "self". Typical form:
+                # super(SubclassType, self).__init__(...)
+                # In Haxe, this would just be "super()"
+                # args to __init__ would remain as-is. That's not processed here.
+                if method_name == "super" and len(arguments) == 2 and arguments[1] == "self":
+                    arguments = []
+                    
                 return haxe_generator.method_call({"method_name": method_name,
                     "arguments": arguments})
         else:
@@ -42,7 +52,7 @@ class HaxeTransformer(Transformer):
             method_name = node[0].children[1].value
 
             if len(node) > 1:
-                arguments = _args_to_list(node[1])
+                arguments = _args_to_list(node[1])           
 
             return haxe_generator.method_call({"method_name": method_name,
                 "arguments": arguments, "target": target})
