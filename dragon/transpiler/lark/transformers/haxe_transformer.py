@@ -23,7 +23,6 @@ class HaxeTransformer(Transformer):
         if type(node[0]) == str:
             # Function call
             method_name = node[0]
-            
             if method_name[0].isupper():
                 # Constructor call
                 constructor_class = node[0]
@@ -61,15 +60,12 @@ class HaxeTransformer(Transformer):
 
     def import_stmt(self, node):
         # Import statement, probably of the form: from x.a.b import B
-        output = "import "
-        
         node = node[0].children # import_stmt => import_from
         package_components = node[0].children
 
         if len(node) > 1:
             # import a.b.C
             class_name = node[1].children[0].children[0].value
-            output = "{}{}".format(output, class_name)
         else:
             # import A
             class_name = package_components[0].children[0].children[0].value

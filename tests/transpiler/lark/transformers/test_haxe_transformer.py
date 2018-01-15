@@ -45,7 +45,7 @@ class TestHaxeTransformer(unittest.TestCase):
             [Tree("dotted_name", [Token("NAME", 'PlayState')])])])])]
 
         output = h.import_stmt(node)
-        self.assertEqual("import PlayState", output)
+        self.assertEqual("import PlayState;", output)
 
     def test_import_stmt_transforms_dot_path_imports(self):
         h = HaxeTransformer()
@@ -54,7 +54,7 @@ class TestHaxeTransformer(unittest.TestCase):
             Tree("import_as_names", [Tree("import_as_name", [Token("NAME", 'FlxGame')])])])]
 
         output = h.import_stmt(node)
-        self.assertEqual("import flixel.FlxGame", output)
+        self.assertEqual("import flixel.FlxGame;", output)
 
     def test_import_stmt_transforms_multilevel_dot_path_imports(self):
         h = HaxeTransformer()
@@ -64,7 +64,7 @@ class TestHaxeTransformer(unittest.TestCase):
             [Token("NAME", 'Sprite')])])])]
 
         output = h.import_stmt(node)
-        self.assertEqual("import openfl.display.Sprite", output)
+        self.assertEqual("import openfl.display.Sprite;", output)
     
     def test_number_transforms_decimal_numbers_to_floats(self):
         for num in (0.0, 17.021, -183.123456):

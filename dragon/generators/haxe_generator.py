@@ -6,7 +6,7 @@ def import_statement(package_components, class_name):
     for component in package_components:
         output = "{}{}.".format(output, component)
 
-    output = "{}{}".format(output, class_name)
+    output = "{}{};".format(output, class_name)
     return output
 
 def number(num_string):

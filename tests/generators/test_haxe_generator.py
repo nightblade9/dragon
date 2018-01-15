@@ -11,15 +11,15 @@ class TestHaxeGenerator(unittest.TestCase):
 
     def test_import_statement_transforms_simple_imports(self):
         output = haxe_generator.import_statement([], "PlayState")
-        self.assertEqual("import PlayState", output)
+        self.assertEqual("import PlayState;", output)
 
     def test_import_statement_transforms_dot_path_imports(self):
         output = haxe_generator.import_statement(["flixel"], "FlxGame")
-        self.assertEqual("import flixel.FlxGame", output)
+        self.assertEqual("import flixel.FlxGame;", output)
 
     def test_import_statement_transforms_multilevel_dot_path_imports(self):
         output = haxe_generator.import_statement(["openfl", "display"], "Sprite")
-        self.assertEqual("import openfl.display.Sprite", output)
+        self.assertEqual("import openfl.display.Sprite;", output)
     
     def test_method_call_has_brackets_when_no_parameters(self):
         output = haxe_generator.method_call({"method_name": "destroy", "arguments": []})
