@@ -64,6 +64,20 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.funccall(data)
         self.assertEqual("super()", output)
 
+    def test_funcdef_transforms_header(self):
+        h = HaxeTransformer()
+        data = [Token("NAME", 'update'), ["elapsed"], 'super().update(elapsed)']
+        output = h.funcdef(data)
+        self.assertIn("function update(elapsed)", output)
+        self.assertIn("super().update(elapsed)", output)
+
+    def test_funcdef_transforms_init_to_new(self):
+        h = HaxeTransformer()
+        data = [Token("NAME", '__init__'), [], 'super().__init__()\nself.addChild(new FlxGame(0, 0, PlayState))']
+        output = h.funcdef(data)
+        self.assertIn("function new()", output)
+        self.assertIn("addChild", output)
+
     def test_import_stmt_transforms_simple_imports(self):
         h = HaxeTransformer()
 

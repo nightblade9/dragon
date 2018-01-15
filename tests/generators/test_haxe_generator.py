@@ -58,6 +58,12 @@ class TestHaxeGenerator(unittest.TestCase):
 
         self.assertEqual('new Monster("assets/images/duck.png", 5, 1)', output)
 
+    # Note that the transformation of __init__ is in the transformer, not the generator
+    def test_method_declaration_generates_header(self):
+        output = haxe_generator.method_declaration("__init__", [], "super()")
+        self.assertIn("function __init__()", output)
+        self.assertIn("super()", output)
+
     def test_number_transforms_decimal_numbers_to_floats(self):
         for num in (0.0, 17.021, -183.123456):
             output = haxe_generator.number("{}".format(num))
