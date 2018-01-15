@@ -9,12 +9,6 @@ def import_statement(package_components, class_name):
     output = "{}{};".format(output, class_name)
     return output
 
-def number(num_string):
-    if "." in num_string:
-        return float(num_string)
-    else:
-        return int(num_string)
-
 # Method calls. TODO: extract into a different class?
 def method_call(data):
     method_name = data["method_name"]
@@ -33,6 +27,15 @@ def method_call(data):
 
     output = "{}{}({})".format(target, method_name, ", ".join(arguments))
     return output
+
+def method_declaration(method_name, arguments, method_body):
+    return "function {}({}) {{ {} }}".format(method_name, ",".join(arguments), method_body)
+
+def number(num_string):
+    if "." in num_string:
+        return float(num_string)
+    else:
+        return int(num_string)
 
 def value(val):
     return val

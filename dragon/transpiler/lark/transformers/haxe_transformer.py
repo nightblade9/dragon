@@ -13,6 +13,21 @@ class HaxeTransformer(Transformer):
         arguments = node
         return haxe_generator.arguments(node)
 
+    def classdef(self, data):
+        class_name = data[0].value
+        super_classes = data[1]
+        # throw if super_classes > 1. In validator.
+        super_class = super_classes[0]
+        class_body = data[2]
+        return "class {}{} {{ {} }}".format(
+            class_name,
+            "" if super_class == "" else " extends {}".format(super_class),
+            class_body)
+
+    def compound_stmt(self, data):
+        print("COMP {}".format(data))
+        return "\n".join(data)
+
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
 
@@ -58,6 +73,15 @@ class HaxeTransformer(Transformer):
         
         return node
 
+    def funcdef(self, data):
+        method_name = data[0].value
+        arguments = data[1] # list
+        function_body = data[2]
+
+        # methods named __init__ are mapped to new()
+        method_name = "new" if method_name == "__init__" else method_name
+        return haxe_generator.method_declaration(method_name, arguments, function_body)
+
     def import_stmt(self, node):
         # Import statement, probably of the form: from x.a.b import B
         node = node[0].children # import_stmt => import_from
@@ -84,6 +108,10 @@ class HaxeTransformer(Transformer):
             data = data[1:]
         arguments = list(map((lambda d: d.value), data))
         return haxe_generator.arguments(arguments)
+
+    def suite(self, data):
+        print("SUITE: {}".format(data))
+        return "\n".join(data)
 
     def var(self, node):
         # Simple node with a variable name
