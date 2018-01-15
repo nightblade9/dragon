@@ -40,7 +40,11 @@ def method_call(data):
     
     target = ""
     if "target" in data:
-        target = "{}.".format(data["target"])
+        target = data["target"]
+        if target == "super" and method_name == "__init__":
+            return "super({})".format(", ".join(arguments))
+        else:
+            target = "{}.".format(target)
 
     output = "{}{}({})".format(target, method_name, ", ".join(arguments))
     return output

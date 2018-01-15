@@ -65,6 +65,10 @@ class TestHaxeGenerator(unittest.TestCase):
 
         self.assertEqual('new Monster("assets/images/duck.png", 5, 1)', output)
 
+    def test_method_call_turns_super_call_to_init_into_regular_super_call(self):
+        output = haxe_generator.method_call({"target": "super", "method_name": "__init__", "arguments": ["x", "y"]})
+        self.assertEqual("super(x, y)", output)
+
     def test_method_declaration_renames_init_to_new(self):
         output = haxe_generator.method_declaration("__init__", [], "super()")
         self.assertIn("function new()", output)
