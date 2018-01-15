@@ -8,8 +8,6 @@ import sys
 # Is there a more abstract way to do this, so we can unit-test it better?
 class HaxeTransformer(Transformer):
 
-    DEBUG_NODE = None
-
     def arguments(self, node):
         arguments = node
         return haxe_generator.arguments(node)
@@ -32,7 +30,6 @@ class HaxeTransformer(Transformer):
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
 
-        HaxeTransformer.DEBUG_NODE = node
         arguments = []
         
         # First parameter is a list
@@ -100,7 +97,6 @@ class HaxeTransformer(Transformer):
 
     def number(self, node):
         # Integer or decimal number
-        HaxeTransformer.DEBUG_NODE = node
         node_value = node[0].value
         return haxe_generator.number(node_value)
 
