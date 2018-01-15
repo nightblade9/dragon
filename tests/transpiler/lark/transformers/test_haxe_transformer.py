@@ -36,6 +36,13 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.compound_stmt(data)
         self.assertEqual("\n".join(data), output)
 
+    def test_file_input_returns_data(self):
+        h = HaxeTransformer()
+        x = 38
+        data = ["one", x, 172.1]
+        output = h.file_input(data)
+        self.assertEqual(data, output)
+
     def test_funccall_has_brackets_when_no_parameters(self):
         h = HaxeTransformer()
         output = h.funccall(['super', Tree("arguments", [])])

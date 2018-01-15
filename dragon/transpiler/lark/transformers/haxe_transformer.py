@@ -27,6 +27,11 @@ class HaxeTransformer(Transformer):
     def compound_stmt(self, data):
         return haxe_generator.list_to_newline_separated_text(data)
 
+    # This turns the output from a tree into a flat list, which is bad.
+    # Alternatively, it removes the file_input line starting each file.
+    def file_input(self, data):
+        return data
+
     def funccall(self, node):
         # TODO: definitely break this into multiple classes/methods
 

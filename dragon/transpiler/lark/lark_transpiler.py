@@ -41,7 +41,7 @@ class LarkTranspiler:
 def _convert_and_print(tree, filename):
     filename = filename.replace('.py', '.hx')
     with open(filename, 'wt') as f:
-        f.write(tree.pretty())
+        f.write("\n".join(tree)) # tree is a list
 
 def _read_contents(fn, *args):
     kwargs = {'encoding': 'iso-8859-1'}
