@@ -20,3 +20,15 @@ class TestTranspilationOperations(unittest.TestCase):
         filename = os.path.join(root, "common", "models", "entities", "player.py")
         code = transpilation_operations.add_package_statement(root, filename, "")
         self.assertIn("package common.models.entities", code)
+    
+    def test_camel_case_to_pep8_method_name_works_as_expected(self):
+        test_cases = (
+            ("lower", "lower"), ("addChild", "add_child"), ("ALL_UPPER", "all_upper"),
+            ("partial_UPPER", "partial_upper"), ("one_TWO3_four", "one_two3_four")
+        )
+
+        for test_case in test_cases:
+            input_string = test_case[0]
+            expected = test_case[1]
+            output = transpilation_operations.camel_case_to_pep8_method_name(input_string)
+            self.assertEqual(expected, output)
