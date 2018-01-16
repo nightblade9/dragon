@@ -1,3 +1,6 @@
+_METADATA_START = '"""@'
+_METADATA_END = '"""'
+
 def arguments(args):
     return [v for v in args]
 
@@ -34,24 +37,35 @@ def method_call(data):
         method_name = "new {}".format(method_name)
 
     raw_arguments = data["arguments"]
-    arguments = []
+    args = []
     for arg in raw_arguments:
-        arguments.append("{}".format(arg)) # to_string
+        args.append("{}".format(arg)) # to_string
     
     target = ""
     if "target" in data:
         target = data["target"]
         if target == "super" and method_name == "__init__":
-            return "super({})".format(", ".join(arguments))
+            return "super({})".format(", ".join(args))
         else:
             target = "{}.".format(target)
 
-    output = "{}{}({})".format(target, method_name, ", ".join(arguments))
+    output = "{}{}({})".format(target, method_name, ", ".join(args))
     return output
 
-def method_declaration(method_name, arguments, method_body):
+def metadata_or_long_string(data):
+    if data.startswith(_METADATA_START) and data.endswith(_METADATA_END):
+        start = data.index(_METADATA_START) + len(_METADATA_START) - 1
+        stop = data.rindex(_METADATA_END)
+        to_return = data[start:stop]
+        return to_return
+    else:
+        # To paraphrase Python's benevolant dictator: these are 
+        # block comments, they don't generate into code!
+        return ""
+
+def method_declaration(method_name, args, method_body):
     method_name = "new" if method_name == "__init__" else method_name
-    return "function {}({}) {{\n{}\n}}".format(method_name, ",".join(arguments), method_body)
+    return "function {}({}) {{\n{}\n}}".format(method_name, ",".join(args), method_body)
 
 def number(num_string):
     if "." in num_string:

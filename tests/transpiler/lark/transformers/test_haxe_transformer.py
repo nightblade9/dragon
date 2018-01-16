@@ -142,6 +142,26 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.parameters(data)
         self.assertEqual(output, ["elapsed", "mode"])
 
+    def test_string_turns_list_into_metadata(self):
+        h = HaxeTransformer()
+        metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        data = [Token("LONG_STRING", '"""{}"""'.format(metadata))]
+        output = h.string(data)
+        self.assertEqual(metadata, output)
+
+    def test_string_turns_node_into_metadata(self):
+        h = HaxeTransformer()
+        metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        data = Token("LONG_STRING", '"""{}"""'.format(metadata))
+        output = h.string(data)
+        self.assertEqual(metadata, output)
+
+    def test_string_turns_string_into_metadata(self):
+        h = HaxeTransformer()
+        data = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        output = h.string(data)
+        self.assertIn(output, data)
+
     def test_suite_returns_newline_separated_text_with_semicolons(self):
         h = HaxeTransformer()
         data = ["first line", "second line", "third line!"]

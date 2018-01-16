@@ -132,6 +132,16 @@ class HaxeTransformer(Transformer):
     def pass_stmt(self, data):
         return ""
 
+    # Long strings (""" ... """) or a metadata comment we turned into a string...
+    # If it's not metadata, ignore it.
+    def string(self, data):
+        if isinstance(data, Tree):
+            data = data.value
+        elif isinstance(data, list):
+            data = data[0]
+
+        return haxe_generator.metadata_or_long_string(data)
+
     # A bunch of code lines thrown together
     def suite(self, data):
         return haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)

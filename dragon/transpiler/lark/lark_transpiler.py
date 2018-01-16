@@ -21,8 +21,9 @@ class LarkTranspiler:
             self._python_parser = Lark(f, parser=LarkTranspiler._PARSER, postlex=PythonIndenter(), start=LarkTranspiler._PARSER_START)
 
     def transpile(self, filename):
-        try:
-            tree = self._python_parser.parse(_read_contents(filename) + '\n')
+        try:            
+            raw_file_text = _read_contents(filename) + '\n'
+            tree = self._python_parser.parse(raw_file_text)
             code = HaxeTransformer().transform(tree)
         except:
             print ('Failure parsing %s' % filename)
