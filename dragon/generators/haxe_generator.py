@@ -48,8 +48,9 @@ def method_call(data):
         target = data["target"]
         if (target == "super" or target == "super()") and method_name == "__init__":
             return "super({})".format(", ".join(args))
-        else:
-            target = "{}.".format(target)
+        elif target == "self":
+            target = "this"
+        target = "{}.".format(target)
 
     output = "{}{}({})".format(target, method_name, ", ".join(args))
     return output

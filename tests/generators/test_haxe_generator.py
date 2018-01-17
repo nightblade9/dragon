@@ -71,6 +71,11 @@ class TestHaxeGenerator(unittest.TestCase):
             "target": "monster"})
         self.assertEqual("monster.damage(28)", output)
 
+    def test_method_call_changes_target_from_self_to_this(self):
+        output = haxe_generator.method_call({"method_name": "fight", "arguments": ["monster"],
+            "target": "self"})
+        self.assertEqual("this.fight(monster)", output)
+
     def test_method_call_generates_constructor_when_is_constructor_is_true(self):
         output = haxe_generator.method_call({"method_name": "Monster", "arguments": ['"assets/images/duck.png"', 5, 1],
             "is_constructor": True})
