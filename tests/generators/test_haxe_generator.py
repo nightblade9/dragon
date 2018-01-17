@@ -39,21 +39,21 @@ class TestHaxeGenerator(unittest.TestCase):
         self.assertEqual("\n".join(data), output)
         self.assertNotIn(";", output)
 
-    def test_list_to_newline_separated_text_generates_text_with_newlines(self):
+    def test_list_to_newline_separated_text_generates_text_with_newlines_and_semicolons(self):
         data = ["first line", "second line", "third line!"]
         output = haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
         self.assertEqual("first line;\nsecond line;\nthird line!;", output)
         self.assertEqual(len(data), output.count(";"))
 
-    deftest_custom_token_or_long_string_turns_metadata_string_into_metadata(self):
+    def test_custom_token_or_long_string_turns_metadata_string_into_metadata(self):
         metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
         data = '"""{}"""'.format(metadata)
-        output = haxe_generator.metadata_or_long_string(data)
+        output = haxe_generator.custom_token_or_long_string(data)
         self.assertIn(metadata, output)
 
-    deftest_custom_token_or_long_string_turns_long_string_into_empty_string(self):
+    def test_custom_token_or_long_string_turns_long_string_into_empty_string(self):
         data = '"""Here is a nice doc-string comment!"""'
-        output = haxe_generator.metadata_or_long_string(data)
+        output = haxe_generator.custom_token_or_long_string(data)
         self.assertEqual("", output)
 
     def test_method_call_has_brackets_when_no_parameters(self):
