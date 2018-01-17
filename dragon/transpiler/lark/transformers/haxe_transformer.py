@@ -132,15 +132,17 @@ class HaxeTransformer(Transformer):
     def pass_stmt(self, data):
         return ""
 
-    # Long strings (""" ... """) or a metadata comment we turned into a string...
-    # If it's not metadata, ignore it.
+    # Long strings (""" ... """) are often our doing. We use this to support
+    # Haxe features that Python doesn't have grammar support for, such as 
+    # metadata (@...) or the "override" keyword on methods.
+    # If it's not our custom syntax, ignore it.
     def string(self, data):
         if isinstance(data, Tree):
             data = data.value
         elif isinstance(data, list):
             data = data[0]
 
-        return haxe_generator.metadata_or_long_string(data)
+        return haxe_generator.custom_token_or_long_string(data)
 
     # A bunch of code lines thrown together
     def suite(self, data):
