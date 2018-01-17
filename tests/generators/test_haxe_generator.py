@@ -1,6 +1,7 @@
 from dragon.generators import haxe_generator
 from lark.lexer import Token
 from lark import Tree
+from nose_parameterized import parameterized
 import unittest
 
 class TestHaxeGenerator(unittest.TestCase):
@@ -70,11 +71,21 @@ class TestHaxeGenerator(unittest.TestCase):
             "target": "monster"})
         self.assertEqual("monster.damage(28)", output)
 
-    def test_method_call_generates_constructor(self):
+    def test_method_call_generates_constructor_when_is_constructor_is_true(self):
         output = haxe_generator.method_call({"method_name": "Monster", "arguments": ['"assets/images/duck.png"', 5, 1],
             "is_constructor": True})
 
         self.assertEqual('new Monster("assets/images/duck.png", 5, 1)', output)
+    
+    
+    @parameterized.expand([
+        ['super()'],
+        ['super']
+    ])
+    def test_method_call_generates_constructor_when_method_name_is_init_and_target_is_super(self, target):
+        data = {'method_name': '__init__', 'arguments': [], 'target': target}
+        output = haxe_generator.method_call(data)
+        self.assertEqual("super()", output)
 
     def test_method_call_turns_super_call_to_init_into_regular_super_call(self):
         output = haxe_generator.method_call({"target": "super", "method_name": "__init__", "arguments": ["x", "y"]})

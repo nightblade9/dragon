@@ -37,7 +37,7 @@ def method_call(data):
 
     if "is_constructor" in data and data["is_constructor"]:
         method_name = "new {}".format(method_name)
-
+    
     raw_arguments = data["arguments"]
     args = []
     for arg in raw_arguments:
@@ -46,7 +46,7 @@ def method_call(data):
     target = ""
     if "target" in data:
         target = data["target"]
-        if target == "super" and method_name == "__init__":
+        if (target == "super" or target == "super()") and method_name == "__init__":
             return "super({})".format(", ".join(args))
         else:
             target = "{}.".format(target)
@@ -68,7 +68,9 @@ def custom_token_or_long_string(data):
         return ""
 
 def method_declaration(method_name, args, method_body):
-    method_name = "new" if method_name == "__init__" else method_name
+    if method_name == "__init__":
+        method_name = "new" 
+    
     return "function {}({}) {{\n{}\n}}".format(method_name, ",".join(args), method_body)
 
 def number(num_string):
