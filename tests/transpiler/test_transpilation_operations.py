@@ -32,3 +32,14 @@ class TestTranspilationOperations(unittest.TestCase):
     def test_camel_case_to_pep8_method_name_works_as_expected(self, input_string, expected):
         output = transpilation_operations.camel_case_to_pep8_method_name(input_string)
         self.assertEqual(expected, output)
+
+    @parameterized.expand([
+        ["lower", "Lower"],
+        ["add_child", "AddChild"],
+        ["ALL_UPPER", "ALLUPPER"],
+        ["partial_UPPER", "PartialUPPER"],
+        ["one_TWO3_four", "OneTWO3Four"]
+    ])
+    def test_python_name_to_haxe_name_works_as_expected(self, input_string, expected):
+        output = transpilation_operations.python_name_to_haxe_name(input_string)
+        self.assertEqual(expected, output)

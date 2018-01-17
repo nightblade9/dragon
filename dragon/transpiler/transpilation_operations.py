@@ -14,11 +14,25 @@ def add_package_statement(source_root, path_and_filename, code, path_separator=o
 def camel_case_to_pep8_method_name(name):
     output = name[0]
     for i in range(1, len(name)):
+        character = name[i]
         # Note: !upper() covers symbols, numbers, etc. lower() doesn't.
-        if name[i].isupper() and not name[i - 1].isupper():
-            output = "{}_{}".format(output, name[i])
+        if character.isupper() and not name[i - 1].isupper():
+            output = "{}_{}".format(output, character)
         else:
-            output = "{}{}".format(output, name[i])
+            output = "{}{}".format(output, character)
     
     output = output.replace("__", "_")
     return output.lower()
+
+def python_name_to_haxe_name(name):
+    output = name[0].upper()
+    i = 1
+    while i < len(name):
+        character = name[i]
+        # Note: !upper() covers symbols, numbers, etc. lower() doesn't.
+        if character == "_" and i < len(name) - 1:
+            character = name[i + 1].upper()
+            i += 1 # skip
+        output = "{}{}".format(output, character)
+        i += 1
+    return output

@@ -16,6 +16,8 @@ class PythonToHaxeTranspiler:
 
     def _convert_and_print(self, code, filename):
         filename = filename.replace('.py', '.hx')
+        filename = transpilation_operations.camel_case_to_pep8_method_name(filename)
+        print("Writing {}".format(filename))
         with open(filename, 'wt') as f:
             f.write(code)
 
