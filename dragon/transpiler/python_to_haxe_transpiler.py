@@ -22,7 +22,7 @@ class PythonToHaxeTranspiler:
         filename = filename.replace('.py', '.hx')
         filename = transpilation_operations.python_name_to_haxe_name(filename)
         path_and_filename = "{}{}".format(path_and_filename[0:finalSeparator], filename)
-        print("Converted {} => {}".format(original_filename, path_and_filename))
+        print("Converted {} => {}".format(original_filename, filename))
         with open(path_and_filename, 'wt') as f:
             f.write(code)
 
