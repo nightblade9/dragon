@@ -6,14 +6,15 @@ Dragon is a *universal Python translater*. It achieves this by transpiling Pytho
 
 ----
 
-    Currently, Dragon is in a very early stage of development. We're using Lark to generate the parse tree, and then generate the resulting Haxe code. 
+Currently, Dragon is in a very early stage of development. We're using Lark to generate the parse tree, and then generate the resulting Haxe code. 
 
-    Our roadmap:
+Our roadmap:
 
-    - Transpile a very simple "hello world" HaxeFlixel project
-    - Transpile a more complicated HaxeFlixel game
-    - Transpile one of the Kha game tutorials
+- [X] Transpile the default HaxeFlixel "hello world" template (v0.1)
+- [ ] Transpile a more complicated HaxeFlixel template
+- [ ] Transpile an actual HaxeFlixel game
+- [ ] Transpile one of the Kha game tutorials
     
-    Once we achieve these goals, we plan to release the `v1` version of Dragon.
+Once we achieve these goals, we plan to release the `v1.0` version of Dragon.
 
-    You may also be interested in [Mars](https://github.com/nightblade9/mars), our companion project which handles generating and compiling HaxeFlixel projects (via Dragon).
+You may also be interested in [Mars](https://github.com/nightblade9/mars), our companion project which handles generating, compiling, and running Python-based HaxeFlixel projects (via Dragon).
