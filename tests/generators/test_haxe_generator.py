@@ -46,6 +46,11 @@ class TestHaxeGenerator(unittest.TestCase):
         self.assertEqual("first line;\nsecond line;\nthird line!;", output)
         self.assertEqual(len(data), output.count(";"))
 
+    def test_list_to_newline_excludes_override_statements(self):
+        data = ["class X extends FlxState", "override", "public function create()"]
+        output = haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
+        self.assertEqual("class X extends FlxState;\noverride\npublic function create();", output)
+
     def test_custom_token_or_long_string_turns_long_string_into_empty_string(self):
         data = '"""Here is a nice doc-string comment!"""'
         output = haxe_generator.custom_token_or_long_string(data)
