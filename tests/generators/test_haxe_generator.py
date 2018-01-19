@@ -46,12 +46,6 @@ class TestHaxeGenerator(unittest.TestCase):
         self.assertEqual("first line;\nsecond line;\nthird line!;", output)
         self.assertEqual(len(data), output.count(";"))
 
-    def test_custom_token_or_long_string_turns_metadata_string_into_metadata(self):
-        metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
-        data = '"""{}"""'.format(metadata)
-        output = haxe_generator.custom_token_or_long_string(data)
-        self.assertIn(metadata, output)
-
     def test_custom_token_or_long_string_turns_long_string_into_empty_string(self):
         data = '"""Here is a nice doc-string comment!"""'
         output = haxe_generator.custom_token_or_long_string(data)
@@ -81,7 +75,6 @@ class TestHaxeGenerator(unittest.TestCase):
             "is_constructor": True})
 
         self.assertEqual('new Monster("assets/images/duck.png", 5, 1)', output)
-    
     
     @parameterized.expand([
         ['super()'],
@@ -125,6 +118,11 @@ class TestHaxeGenerator(unittest.TestCase):
         for num in (0, 9999, -19232):
             output = haxe_generator.number("{}".format(num))
             self.assertEqual(num, output)
+
+    def test_raw_haxe_extracts_haxe_code(self):
+        haxe_code = "a.b(c, d)"
+        output= haxe_generator.raw_haxe("@haxe: {}".format(haxe_code))
+        self.assertEqual(haxe_code, output)
 
     def test_value_returns_variable_name(self):
         variable_names = ["Sprite", "some_variable", "out_of_100_monkeys"]

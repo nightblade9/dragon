@@ -101,6 +101,13 @@ class HaxeTransformer(Transformer):
         # methods named __init__ are mapped to new()
         return haxe_generator.method_declaration(method_name, arguments, function_body)
 
+    def haxe(self, data):
+        if isinstance(data, Tree):
+            data = data.value
+        elif isinstance(data, list):
+            data = data[0].value
+        return haxe_generator.raw_haxe(data)
+
     # Import statement, probably of the form: from x.a.b import B
     def import_stmt(self, node):
         node = node[0].children # import_stmt => import_from

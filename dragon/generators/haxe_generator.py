@@ -1,7 +1,4 @@
-_METADATA_START = '"""@'
-_METADATA_END = '"""'
-_OVERRIDE_SYNTAX = '"""#override"""'
-_OVERRIDE_GENERATED = "override"
+_RAW_HAXE_TOKEN = "@haxe:"
 
 def arguments(args):
     return [v for v in args]
@@ -24,7 +21,7 @@ def list_to_newline_separated_text(data, suffix_semicolons=False):
     if suffix_semicolons:
         to_return = []
         for line in data:
-            if "{" not in line and "}" not in line and line != _OVERRIDE_GENERATED:
+            if "{" not in line and "}" not in line:
                 line = "{};".format(line)
             to_return.append(line)
         data = to_return
@@ -56,17 +53,9 @@ def method_call(data):
     return output
 
 def custom_token_or_long_string(data):
-    if data.startswith(_METADATA_START) and data.endswith(_METADATA_END):
-        start = data.index(_METADATA_START) + len(_METADATA_START) - 1
-        stop = data.rindex(_METADATA_END)
-        to_return = data[start:stop]
-        return to_return
-    elif data == _OVERRIDE_SYNTAX:
-        return _OVERRIDE_GENERATED
-    else:
-        # To paraphrase Python's benevolant dictator: these are 
-        # block comments, they don't generate into code!
-        return ""
+    # To paraphrase Python's benevolant dictator: these are 
+    # block comments, they don't generate into code!
+    return ""
 
 def method_declaration(method_name, args, method_body):
     if method_name == "__init__":
@@ -79,6 +68,9 @@ def number(num_string):
         return float(num_string)
     else:
         return int(num_string)
+
+def raw_haxe(haxe_string):
+    return haxe_string.replace(_RAW_HAXE_TOKEN, "").strip()
 
 def value(val):
     return val

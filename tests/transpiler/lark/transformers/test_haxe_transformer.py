@@ -94,6 +94,29 @@ class TestHaxeTransformer(unittest.TestCase):
         self.assertIn("function new()", output)
         self.assertIn("addChild", output)
 
+    def test_haxe_turns_list_into_haxe_code(self):
+        h = HaxeTransformer()
+        haxe_code = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        metadata = '@haxe: {}'.format(haxe_code)
+        data = [Token("LONG_STRING", metadata)]
+        output = h.haxe(data)
+        self.assertEqual(haxe_code, output)
+
+    def test_haxe_turns_node_into_haxe_code(self):
+        h = HaxeTransformer()
+        haxe_code = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        metadata = '@haxe: {}'.format(haxe_code)
+        data = Token("LONG_STRING",metadata)
+        output = h.haxe(data)
+        self.assertEqual(haxe_code, output)
+
+    def test_haxe_turns_string_into_haxe_code(self):
+        h = HaxeTransformer()
+        haxe_code = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
+        data = '@haxe: {}'.format(haxe_code)
+        output = h.haxe(data)
+        self.assertEqual(haxe_code, output)
+
     def test_import_stmt_transforms_simple_imports(self):
         h = HaxeTransformer()
 
@@ -142,25 +165,25 @@ class TestHaxeTransformer(unittest.TestCase):
         output = h.parameters(data)
         self.assertEqual(output, ["elapsed", "mode"])
 
-    def test_string_turns_list_into_metadata(self):
+    def test_string_turns_list_into_empty_string(self):
         h = HaxeTransformer()
         metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
         data = [Token("LONG_STRING", '"""{}"""'.format(metadata))]
         output = h.string(data)
-        self.assertEqual(metadata, output)
+        self.assertEqual("", output)
 
-    def test_string_turns_node_into_metadata(self):
+    def test_string_turns_node_into_empty_string(self):
         h = HaxeTransformer()
         metadata = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
         data = Token("LONG_STRING", '"""{}"""'.format(metadata))
         output = h.string(data)
-        self.assertEqual(metadata, output)
+        self.assertEqual("", output)
 
-    def test_string_turns_string_into_metadata(self):
+    def test_string_turns_string_into_empty_string(self):
         h = HaxeTransformer()
         data = '@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))'
         output = h.string(data)
-        self.assertIn(output, data)
+        self.assertIn("", data)
 
     def test_suite_returns_newline_separated_text_with_semicolons(self):
         h = HaxeTransformer()
