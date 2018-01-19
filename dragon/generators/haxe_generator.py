@@ -50,6 +50,9 @@ def method_call(data):
             target = "this"
         target = "{}.".format(target)
 
+    if method_name == "print":
+        method_name = "trace"
+
     output = "{}{}({})".format(target, method_name, ", ".join(args))
     return output
 

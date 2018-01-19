@@ -94,6 +94,11 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.method_call({"target": "super", "method_name": "__init__", "arguments": ["x", "y"]})
         self.assertEqual("super(x, y)", output)
 
+    def test_method_call_converts_print_to_trace(self):
+        output = haxe_generator.method_call({"method_name": "print", "arguments": ['"Hello from Python!"']})
+        self.assertEqual("trace(\"Hello from Python!\")", output)
+
+
     def test_method_declaration_renames_init_to_new(self):
         output = haxe_generator.method_declaration("__init__", [], "super()")
         self.assertIn("function new()", output)
