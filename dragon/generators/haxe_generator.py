@@ -1,4 +1,5 @@
 _RAW_HAXE_TOKEN = "@haxe:"
+_GENERATED_OVERRIDE = "override"
 
 def arguments(args):
     return [v for v in args]
@@ -21,7 +22,7 @@ def list_to_newline_separated_text(data, suffix_semicolons=False):
     if suffix_semicolons:
         to_return = []
         for line in data:
-            if "{" not in line and "}" not in line:
+            if "{" not in line and "}" not in line and line != _GENERATED_OVERRIDE:
                 line = "{};".format(line)
             to_return.append(line)
         data = to_return
