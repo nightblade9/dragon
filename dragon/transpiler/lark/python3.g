@@ -38,7 +38,7 @@ varargslist: (vfpdef ["=" test] ("," vfpdef ["=" test])* ["," [ "*" [vfpdef] (",
 
 vfpdef: NAME
 
-?stmt: simple_stmt | compound_stmt
+?stmt: simple_stmt | compound_stmt | haxe
 ?simple_stmt: small_stmt (";" small_stmt)* [";"] _NEWLINE
 ?small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt | import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
 ?expr_stmt: testlist_star_expr (annassign | augassign (yield_expr|testlist)
@@ -186,3 +186,5 @@ IMAG_NUMBER.2: /\d+j|${FLOAT_NUMBER}j/i
 _DEDENT: "<DEDENT>"
 _INDENT: "<INDENT>"
 
+// Dragon extension: raw Haxe code. ".+" doesn't work, it captures newlines. [^\n] crashes!
+haxe: /@haxe:\s?([a-zA-Z0-9:"'@, \(\)\.]+)\n*/is
