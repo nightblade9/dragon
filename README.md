@@ -20,7 +20,9 @@ Dragon is still in the early stages of development and currently can only proces
 For constructs that don't exist in Python (eg. `override`, `@:...`), add them to your Python code and prefix them with `@haxe:`.
 
 # Caveats
+
 - When importing Haxe code, use the Haxe-style `from package.subpackage import ClassName`
+- Make sure all Python files have a final empty line
 
 ----
 
@@ -32,6 +34,6 @@ For constructs that don't exist in Python (eg. `override`, `@:...`), add them to
     - Transpile a more complicated HaxeFlixel game
     - Transpile one of the Kha game tutorials
     
-    Once we achieve these goals, we plan to release the `v1` version of Dragon.
+    Once we achieve these goals, we plan to release the `v1.0.0` version of Dragon.
 
     You may also be interested in [Mars](https://github.com/nightblade9/mars), our companion project which handles generating and compiling HaxeFlixel projects (via Dragon).
