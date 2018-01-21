@@ -1,7 +1,6 @@
 from lark import Lark
-from .python_indenter import PythonIndenter
-from .transformers.haxe_transformer import HaxeTransformer
-from .validators.lark_validator import LarkValidator
+from dragon.transpiler.lark.python_indenter import PythonIndenter
+from dragon.transpiler.lark.transformers.haxe_transformer import HaxeTransformer
 import os
 import sys
 
@@ -20,22 +19,7 @@ class LarkTranspiler:
         with open(self.grammar_filename) as f:
             self._python_parser = Lark(f, parser=LarkTranspiler._PARSER, postlex=PythonIndenter(), start=LarkTranspiler._PARSER_START)
 
-    def transpile(self, filename):
-        try:            
-            raw_file_text = _read_contents(filename) + '\n'
-            tree = self._python_parser.parse(raw_file_text)
-            code = HaxeTransformer().transform(tree)
-        except:
-            print ('Failure parsing %s' % filename)
-            raise
-
-        validator = LarkValidator(self.grammar_filename)
-        if not validator.is_fully_parsed(code):
-            raise NotImplementedError("{} is not fully parsable.".format(filename))
-
+    def transpile(self, raw_file_text):
+        tree = self._python_parser.parse(raw_file_text)
+        code = HaxeTransformer().transform(tree)
         return code
-
-def _read_contents(fn, *args):
-    kwargs = {'encoding': 'iso-8859-1'}
-    with open(fn, *args, **kwargs) as f:
-        return f.read()

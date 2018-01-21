@@ -5,6 +5,17 @@ from nose_parameterized import parameterized
 import unittest
 
 class TestHaxeGenerator(unittest.TestCase):
+
+    @parameterized.expand([
+        [-212, "+", 2124],
+        [34, "-", 21.014],
+        [-1.07776, "*", -156],
+        [0, "/", 0]
+    ])
+    def test_arithmetic_expression_converts_to_math(self, operand_one, operation, operand_two):
+        output = haxe_generator.arithmetic_expression(operation, operand_one, operand_two)
+        self.assertEqual("{} {} {}".format(operand_one, operation, operand_two), output)
+
     def test_arguments_returns_arguments(self):
         args = [124, Tree("test", [])]
         output = haxe_generator.arguments(args)
@@ -51,10 +62,21 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
         self.assertEqual("class X extends FlxState;\noverride\npublic function create();", output)
 
-    def test_custom_token_or_long_string_turns_long_string_into_empty_string(self):
+    def test_string_turns_docstring_into_empty_string(self):
         data = '"""Here is a nice doc-string comment!"""'
-        output = haxe_generator.custom_token_or_long_string(data)
+        output = haxe_generator.string(data)
         self.assertEqual("", output)
+
+    @parameterized.expand([
+        ['super()'], # method call
+        ['just a regular string'],
+        ['$p#$CiaL_*""()'], # special characters
+        ['123.456'], # float
+        ["And here's a long string with a bunch of unnecessary characters."]
+    ])
+    def test_string_leaves_strings_intact(self, data):
+        output = haxe_generator.string(data)
+        self.assertEqual(data, output)
 
     def test_method_call_has_brackets_when_no_parameters(self):
         output = haxe_generator.method_call({"method_name": "destroy", "arguments": []})
@@ -93,6 +115,11 @@ class TestHaxeGenerator(unittest.TestCase):
     def test_method_call_turns_super_call_to_init_into_regular_super_call(self):
         output = haxe_generator.method_call({"target": "super", "method_name": "__init__", "arguments": ["x", "y"]})
         self.assertEqual("super(x, y)", output)
+
+    def test_method_call_converts_print_to_trace(self):
+        output = haxe_generator.method_call({"method_name": "print", "arguments": ['"Hello from Python!"']})
+        self.assertEqual("trace(\"Hello from Python!\")", output)
+
 
     def test_method_declaration_renames_init_to_new(self):
         output = haxe_generator.method_declaration("__init__", [], "super()")

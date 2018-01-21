@@ -1,9 +1,22 @@
 from dragon.transpiler.lark.transformers.haxe_transformer import HaxeTransformer
 from lark.lexer import Token
 from lark import Tree
+from nose_parameterized import parameterized
 import unittest
 
 class TestHaxeTransformer(unittest.TestCase):
+
+    @parameterized.expand([
+        [-212, "+", 2124],
+        [34, "-", 21.014],
+        [-1.07776, "*", -156],
+        [0, "/", 0]
+    ])
+    def test_arithmetic_expression_converts_to_math(self, operand_one, operation, operand_two):
+        h = HaxeTransformer()
+        output = h.arith_expr([operand_one, operation, operand_two])
+        self.assertEqual("{} {} {}".format(operand_one, operation, operand_two), output)
+
     def test_arguments_returns_arguments(self):
         h = HaxeTransformer()
         args = [124, Tree("test", [])]
