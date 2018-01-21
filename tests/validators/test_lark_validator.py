@@ -1,5 +1,5 @@
-from dragon.transpiler.lark.validators import lark_validator
-from dragon.transpiler.lark.validators.lark_validator import LarkValidator
+from dragon.validators import lark_validator
+from dragon.validators.lark_validator import LarkValidator
 from lark.lexer import Token
 from lark import Tree
 import os
