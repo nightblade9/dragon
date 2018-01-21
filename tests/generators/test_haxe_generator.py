@@ -51,10 +51,21 @@ class TestHaxeGenerator(unittest.TestCase):
         output = haxe_generator.list_to_newline_separated_text(data, suffix_semicolons=True)
         self.assertEqual("class X extends FlxState;\noverride\npublic function create();", output)
 
-    def test_custom_token_or_long_string_turns_long_string_into_empty_string(self):
+    def test_string_turns_docstring_into_empty_string(self):
         data = '"""Here is a nice doc-string comment!"""'
-        output = haxe_generator.custom_token_or_long_string(data)
+        output = haxe_generator.string(data)
         self.assertEqual("", output)
+
+    @parameterized.expand([
+        ['super()'], # method call
+        ['just a regular string'],
+        ['$p#$CiaL_*""()'], # special characters
+        ['123.456'], # float
+        ["And here's a long string with a bunch of unnecessary characters."]
+    ])
+    def test_string_leaves_strings_intact(self, data):
+        output = haxe_generator.string(data)
+        self.assertEqual(data, output)
 
     def test_method_call_has_brackets_when_no_parameters(self):
         output = haxe_generator.method_call({"method_name": "destroy", "arguments": []})

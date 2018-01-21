@@ -1,5 +1,6 @@
 _RAW_HAXE_TOKEN = "@haxe:"
 _GENERATED_OVERRIDE = "override"
+_DOCSTRING_START_END = '"""'
 
 def arguments(args):
     return [v for v in args]
@@ -56,10 +57,13 @@ def method_call(data):
     output = "{}{}({})".format(target, method_name, ", ".join(args))
     return output
 
-def custom_token_or_long_string(data):
+def string(data):
     # To paraphrase Python's benevolant dictator: these are 
     # block comments, they don't generate into code!
-    return ""
+    data = "" if data.startswith(_DOCSTRING_START_END) and \
+        data.startswith(_DOCSTRING_START_END) else data
+    
+    return data
 
 def method_declaration(method_name, args, method_body):
     if method_name == "__init__":

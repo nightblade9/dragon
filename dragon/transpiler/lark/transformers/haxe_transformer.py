@@ -149,7 +149,7 @@ class HaxeTransformer(Transformer):
         elif isinstance(data, list):
             data = data[0]
 
-        return haxe_generator.custom_token_or_long_string(data)
+        return haxe_generator.string(data)
 
     # A bunch of code lines thrown together
     def suite(self, data):
