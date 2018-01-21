@@ -13,6 +13,11 @@ class HaxeTransformer(Transformer):
         arguments = node
         return haxe_generator.arguments(node)
 
+    # Arithmethic expression
+    def arith_expr(self, data):
+        operand_one, operation, operand_two = data[0], data[1], data[2]
+        return haxe_generator.arithmetic_expression(operation, operand_one, operand_two)
+
     # The "header" definition of a class (name + subclasses)
     def classdef(self, data):
         class_name = data[0].value

@@ -11,18 +11,10 @@ class TestLarkValidator(unittest.TestCase):
 
     def test_is_fully_parsed_succeeds_if_all_tokens_are_transformed(self):
         # Just a bunch of tokens, like "super", "update", "elapsed"
-        tree = [Tree("getattr", ['super', Token("NAME", 'update')]), Tree("arguments", ['elapsed'])]
+        tree = Tree("getattr", ['super', Token("NAME", 'update')]).pretty()
         validator = LarkValidator(TestLarkValidator._GRAMMAR_LOCATION)
         self.assertTrue(validator.is_fully_parsed(tree))
-
-    def test_is_fully_parsed_fails_if_token_remains(self):
-        # raw tokens: file_input, compound_stmt, classdef, suite, pass_stmt
-        tree = Tree("file_input", [Tree("compound_stmt", [Tree("classdef",
-            [Token("NAME", 'AssetPaths'), Tree("suite", [Tree("pass_stmt", [])])])])])
-
-        validator = LarkValidator(TestLarkValidator._GRAMMAR_LOCATION)
-        self.assertFalse(validator.is_fully_parsed(tree))
-
+        
     def test_validate_class_definition_allows_empty_base_class(self):
         # Doesn't throw
         lark_validator.validate_class_definition("Entity", [])

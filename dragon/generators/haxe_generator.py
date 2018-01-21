@@ -2,6 +2,9 @@ _RAW_HAXE_TOKEN = "@haxe:"
 _GENERATED_OVERRIDE = "override"
 _DOCSTRING_START_END = '"""'
 
+def arithmetic_expression(operation, operand_one, operand_two):
+    return "{} {} {}".format(operand_one, operation, operand_two)
+
 def arguments(args):
     return [v for v in args]
 
