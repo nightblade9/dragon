@@ -11,6 +11,9 @@ class LarkValidator:
     def is_fully_parsed(self, code):
         for line in code:
             for token in self._grammar_tokens:
+                if isinstance(line, Tree):
+                    print("Found an unparsed token: {}".format(line))
+                    return False
                 if token in line:
                     print("Found unparsed token {} in line {}".format(token, line))
                     return False
