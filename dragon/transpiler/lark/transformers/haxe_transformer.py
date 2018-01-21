@@ -1,5 +1,5 @@
 from dragon.generators import haxe_generator
-from dragon.transpiler.lark.validators import lark_validator
+from dragon.validators import lark_validator
 from lark import Transformer
 from lark import Tree
 import sys
@@ -44,6 +44,15 @@ class HaxeTransformer(Transformer):
     # A bunch of code lines thrown together.
     def compound_stmt(self, data):
         return haxe_generator.list_to_newline_separated_text(data)
+
+    ######## prototype code
+    def expr_stmt(self, data):
+        return "{} = {}".format(data[0], data[1])
+
+    def term(self, data):
+        return "{} {} {}".format(data[0], data[1].value, data[2])
+
+    ######## end prototype
 
     # The first node of every file.
     # This turns the output from a tree into a flat list, which is bad.
