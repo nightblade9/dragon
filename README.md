@@ -2,7 +2,11 @@
 
 [![Build status](https://travis-ci.org/nightblade9/dragon.svg?branch=master)](https://travis-ci.org/nightblade9/dragon/)
 
-Dragon is a *universal Python translater*. It achieves this by transpiling Python to [Haxe](http://haxe.org), which can then be transpiled and compiled to various platforms and languages (C++, Javascript, Java, C#, Ruby, Python, Lua, etc. for browser/web, desktop, Android, iOS, etc.)
+Dragon transpiles Python 3 code to [Haxe](http://haxe.org), which can then be transpiled and compiled to various platforms and languages (C++, Javascript, Java, C#, Ruby, Python, Lua, etc. for browser/web, desktop, Android, iOS, etc.)
+
+Dragon was created in order to be able to write HaxeFlixel games in Python. However, it can generically transpile Python code to Haxe code.
+
+Dragon is still in the early stages of development and currently can only process a subset of Python 3 code.
 
 # Usage
 
