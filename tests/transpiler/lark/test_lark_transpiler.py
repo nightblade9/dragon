@@ -23,7 +23,8 @@ class TestLarkCompiler(unittest.TestCase):
         
         print(input_code)
         try:
-            actual_code = LarkTranspiler().transpile(input_code)
+            raw_code = LarkTranspiler().transpile(input_code)
+            actual_code = "\n".join(raw_code)
         except:
             print("Failure parsing {}".format(input_file))
             raise

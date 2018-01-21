@@ -1,4 +1,3 @@
-package ;
 trace("Hello, world!")
 m = 45
 x = 137
