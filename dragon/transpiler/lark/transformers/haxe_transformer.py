@@ -13,10 +13,12 @@ class HaxeTransformer(Transformer):
         arguments = node
         return haxe_generator.arguments(node)
 
-    # Arithmethic expression
+    """
+    Arithmethic expression. Data is an array of operands and operations, eg. it
+    can be as simple as [2, +, 3], or as complex as [17, +, "m * x", +, "b"]
+    """
     def arith_expr(self, data):
-        operand_one, operation, operand_two = data[0], data[1], data[2]
-        return haxe_generator.arithmetic_expression(operation, operand_one, operand_two)
+        return haxe_generator.arithmetic_expression(data)
 
     # The "header" definition of a class (name + subclasses)
     def classdef(self, data):

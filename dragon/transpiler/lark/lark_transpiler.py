@@ -15,11 +15,12 @@ class LarkTranspiler:
         grammar_path = sys.modules[__name__].__file__
         grammar_path = grammar_path[:grammar_path.rindex(os.path.sep)]
         self.grammar_filename = os.path.join(grammar_path, LarkTranspiler._PYTHON_3_GRAMMAR_FILENAME)
+        self.tree = None
 
         with open(self.grammar_filename) as f:
             self._python_parser = Lark(f, parser=LarkTranspiler._PARSER, postlex=PythonIndenter(), start=LarkTranspiler._PARSER_START)
 
     def transpile(self, raw_file_text):
-        tree = self._python_parser.parse(raw_file_text)
-        code = HaxeTransformer().transform(tree)
+        self.tree = self._python_parser.parse(raw_file_text)
+        code = HaxeTransformer().transform(self.tree)
         return code

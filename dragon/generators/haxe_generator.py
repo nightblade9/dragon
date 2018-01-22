@@ -2,8 +2,24 @@ _RAW_HAXE_TOKEN = "@haxe:"
 _GENERATED_OVERRIDE = "override"
 _DOCSTRING_START_END = '"""'
 
-def arithmetic_expression(operation, operand_one, operand_two):
-    return "{} {} {}".format(operand_one, operation, operand_two)
+def arithmetic_expression(data):
+    # Copy the data and sort it so that pop() gets the first element first
+    math_data = data[:]
+    math_data.reverse()
+    # Parser seems to understand BEDMAS, i.e. if I send in y=mx+b, it will generate
+    # the string token "m*x". If I send in "2 + (3 + 4) * 5", it passes us the
+    # values [3, +, 4], and then [2, +, "(3 + 4) * 5"]
+    while len(math_data) > 1:
+        # Take the first three, push the result
+        operand_one = math_data.pop()
+        operation = math_data.pop()
+        operand_two = math_data.pop()
+        operand_one = _add_brackets_if_needed(operand_one)
+        operand_two = _add_brackets_if_needed(operand_two)
+        output = "({} {} {})".format(operand_one, operation, operand_two)
+        math_data.append(output)
+    
+    return math_data[0]
 
 def arguments(args):
     return [v for v in args]
@@ -85,3 +101,15 @@ def raw_haxe(haxe_string):
 
 def value(val):
     return val
+
+"""
+Adds brackets if given an expression like "m * x"
+The critical elements here are:
+1) input is a string
+2) input has a space
+Therefore, output "(mx * x)"
+"""
+def _add_brackets_if_needed(math):
+    if isinstance(math, str) and " " in math:
+        return "({})".format(math)
+    return math

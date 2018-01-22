@@ -12,10 +12,11 @@ class TestHaxeTransformer(unittest.TestCase):
         [-1.07776, "*", -156],
         [0, "/", 0]
     ])
-    def test_arithmetic_expression_converts_to_math(self, operand_one, operation, operand_two):
+
+    def test_arithmetic_expression_adds_brackets(self, operand_one, operation, operand_two):
         h = HaxeTransformer()
         output = h.arith_expr([operand_one, operation, operand_two])
-        self.assertEqual("{} {} {}".format(operand_one, operation, operand_two), output)
+        self.assertEqual("({} {} {})".format(operand_one, operation, operand_two), output)
 
     def test_arguments_returns_arguments(self):
         h = HaxeTransformer()
