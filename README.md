@@ -17,12 +17,20 @@ Dragon is still in the early stages of development and currently can only proces
 - Check the outputted Haxe code. Invoke the Haxe compiler as usual.
 - Profit
 
-For constructs that don't exist in Python (eg. `override`, `@:...`), add them to your Python code and prefix them with `@haxe:`.
+For constructs that don't exist in Python (eg. `override`, `@:...`), add them to your Python code and prefix them with `@haxe:`. For example, you can override a method like this:
+
+```
+@haxe: override
+def update(elapsed):
+    # ...
+```
 
 # Caveats
 
 - When importing Haxe code, use the Haxe-style `from package.subpackage import ClassName`
 - Make sure all Python files have a final empty line
+- Multiple inheritence is not supported
+- When calling external APIs (eg. HaxeFlixel), method names will be `haxeLike`, not `python_like`.
 
 ----
 
