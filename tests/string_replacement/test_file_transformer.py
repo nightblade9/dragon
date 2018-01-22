@@ -12,7 +12,11 @@ class TestFileTransformer(unittest.TestCase):
     _MAIN_FILE_PATH = os.path.join(_TEST_FILE_DIR, "main.py")
 
     def setUp(self):
-        os.makedirs(TestFileTransformer._TEST_FILE_DIR)
+        # Not Pythonic (EAFP) but fails often locally when you add print statements
+        # This makes our test runs much more reliable.
+        if not os.path.exists(TestFileTransformer._TEST_FILE_DIR):
+            os.makedirs(TestFileTransformer._TEST_FILE_DIR)
+
         with open(TestFileTransformer._MAIN_FILE_PATH, "wt") as file:
             file.write(test_data.MAIN_HX_PYTHON)
 

@@ -12,9 +12,16 @@ class TestHaxeGenerator(unittest.TestCase):
         [-1.07776, "*", -156],
         [0, "/", 0]
     ])
-    def test_arithmetic_expression_converts_to_math(self, operand_one, operation, operand_two):
-        output = haxe_generator.arithmetic_expression(operation, operand_one, operand_two)
-        self.assertEqual("{} {} {}".format(operand_one, operation, operand_two), output)
+
+    def test_arithmetic_expression_adds_brackets(self, operand_one, operation, operand_two):
+        output = haxe_generator.arithmetic_expression([operand_one, operation, operand_two])
+        self.assertEqual("({} {} {})".format(operand_one, operation, operand_two), output)
+
+    def test_arithmetic_expression_satisfies_bedmas(self):
+        input = [17, "+", 'm * x', "+", 'b']
+        actual = haxe_generator.arithmetic_expression(input)
+        expected = "(((17 + (m * x))) + b)" # death by brackets, but BEDMAS is preserved
+        self.assertEqual(expected, actual)
 
     def test_arguments_returns_arguments(self):
         args = [124, Tree("test", [])]
