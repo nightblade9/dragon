@@ -6,7 +6,12 @@ Dragon transpiles Python 3 code to [Haxe](http://haxe.org), which can then be tr
 
 Dragon was created in order to be able to write HaxeFlixel games in Python. However, it can generically transpile Python code to Haxe code.
 
-Dragon is still in the early stages of development and currently can only process a subset of Python 3 code.
+Dragon is now abandoned, due to a number of problems:
+
+- The complexity of implementing some Python features (such as generators and generator functions)
+- The vast array of built-in Python functions that need to be re-implemented (eg. `itertools`)
+- Lack of code completion (unless you wrap Haxe natives in Python classes)
+- The end-result is not "Python"-like -- you can't put it into the REPL and poke it.
 
 # Usage
 
@@ -17,20 +22,12 @@ Dragon is still in the early stages of development and currently can only proces
 - Check the outputted Haxe code. Invoke the Haxe compiler as usual.
 - Profit
 
-For constructs that don't exist in Python (eg. `override`, `@:...`), add them to your Python code and prefix them with `@haxe:`. For example, you can override a method like this:
-
-```
-@haxe: override
-def update(elapsed):
-    # ...
-```
+For constructs that don't exist in Python (eg. `override`, `@:...`), add them to your Python code and prefix them with `@haxe:`.
 
 # Caveats
 
 - When importing Haxe code, use the Haxe-style `from package.subpackage import ClassName`
 - Make sure all Python files have a final empty line
-- Multiple inheritence is not supported
-- When calling external APIs (eg. HaxeFlixel), method names will be `haxeLike`, not `python_like`.
 
 ----
 
