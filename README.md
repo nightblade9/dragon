@@ -6,7 +6,12 @@ Dragon transpiles Python 3 code to [Haxe](http://haxe.org), which can then be tr
 
 Dragon was created in order to be able to write HaxeFlixel games in Python. However, it can generically transpile Python code to Haxe code.
 
-Dragon is still in the early stages of development and currently can only process a subset of Python 3 code.
+Dragon is now abandoned, due to a number of problems:
+
+- The complexity of implementing some Python features (such as generators and generator functions)
+- The vast array of built-in Python functions that need to be re-implemented (eg. `itertools`)
+- Lack of code completion (unless you wrap Haxe natives in Python classes)
+- The end-result is not "Python"-like -- you can't put it into the REPL and poke it.
 
 # Usage
 
