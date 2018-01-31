@@ -20,7 +20,10 @@ class TestLarkCompiler(unittest.TestCase):
     _TRANSPILER = LarkTranspiler()
 
     @parameterized.expand([
-        ["print_and_math.py"], # No semicolons in output?!
+        ["print_and_math.py"], # Basic print statements and math. No semicolons in output?!
+        # Generators and generator comprehensions are really complicated to implement.
+        # For now, skip this file.
+        # ["generators_and_comprehensions.py"], 
         # Boilerplate files that are the same in all HaxeFlixel templates
         ["haxeflixel_template_main.py"],
         ["haxeflixel_template_asset_paths.py"], # No semicolons in output?!

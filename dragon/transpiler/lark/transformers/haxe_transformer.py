@@ -48,6 +48,8 @@ class HaxeTransformer(Transformer):
         return haxe_generator.list_to_newline_separated_text(data)
 
     ######## prototype code
+    # TODO: move into haxe_generator and add unit tests for both classes
+    
     def expr_stmt(self, data):
         return "{} = {}".format(data[0], data[1])
 
