@@ -4,10 +4,6 @@
 
 Dragon transpiles Python 3 code to [Haxe](http://haxe.org), which can then be transpiled and compiled to various platforms and languages (C++, Javascript, Java, C#, Ruby, Python, Lua, etc. for browser/web, desktop, Android, iOS, etc.)
 
-Dragon was created in order to be able to write HaxeFlixel games in Python. Python supports complex features (eg. generator functions, decorators) and ships with a vast collection of functionality (eg. `itertools`, `decimal`, etc.); it would be impossible to keep Dragon up to date.
-
-Instead, Dragon supports just enough functionality to build games. If you find your favourite feature or module missing, feel free to open an issue or send us a PR.
-
 # Usage
 
 - Create some Python code
@@ -23,7 +19,13 @@ For constructs that don't exist in Python (eg. `override`, `@:...`), add them to
 - When importing Haxe code, use the Haxe-style `from package.subpackage import ClassName`
 - Make sure all Python files have a final empty line
 
-----
+# Limitations
+
+Dragon was created in order to be able to write HaxeFlixel games in Python. Python supports complex features (eg. generator functions, decorators) and ships with a vast collection of functionality (eg. `itertools`, `decimal`, etc.); it would be impossible to keep Dragon up to date.
+
+Instead, Dragon supports just enough functionality to build games. If you find your favourite feature or module missing, feel free to open an issue or send us a PR.
+
+# Roadmap
 
 Currently, Dragon is in a very early stage of development. We're using Lark to generate the parse tree, and then generate the resulting Haxe code. 
 
