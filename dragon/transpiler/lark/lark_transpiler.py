@@ -22,5 +22,6 @@ class LarkTranspiler:
 
     def transpile(self, raw_file_text):
         self.tree = self._python_parser.parse(raw_file_text)
+        # insert here: convert to an equivalent AST
         code = HaxeTransformer().transform(self.tree)
         return code
