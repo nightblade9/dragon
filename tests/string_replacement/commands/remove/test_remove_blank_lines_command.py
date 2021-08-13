@@ -1,5 +1,5 @@
 from dragon.string_replacement.commands.remove.remove_blank_lines_command import RemoveBlankLinesCommand
-from helpers import test_data
+from tests.helpers import test_data
 import unittest
 
 class TestRemoveBlankLinesCommand(unittest.TestCase):

@@ -1,5 +1,5 @@
 import distutils.dir_util
-from helpers import test_data
+from tests.helpers import test_data
 import os
 import unittest
 from dragon.string_replacement.commands.add.add_package_statement_command import AddPackageStatementCommand

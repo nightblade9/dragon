@@ -1,5 +1,5 @@
 from dragon.string_replacement.file_transformer import FileTransformer
-from helpers import test_data
+from tests.helpers import test_data
 import os
 import unittest
 

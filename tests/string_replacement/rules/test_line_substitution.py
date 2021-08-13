@@ -1,5 +1,5 @@
 from dragon.string_replacement.rules import line_substitution
-from helpers import test_data
+from tests.helpers import test_data
 import unittest
 
 class TestLineSubstitution(unittest.TestCase):
