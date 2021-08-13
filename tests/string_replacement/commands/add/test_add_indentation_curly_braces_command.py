@@ -1,6 +1,6 @@
 from dragon.string_replacement.commands.add.add_indentation_curly_braces_command import AddIndentationCurlyBracesCommand
 from dragon.string_replacement.commands.substitute.transpile_class_declaration_command import TranspileClassDeclarationCommand
-from helpers import test_data
+from tests.helpers import test_data
 import unittest
 
 class TestAddIndentationCurlyBracesCommand(unittest.TestCase):
